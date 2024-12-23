@@ -1,0 +1,115 @@
+using System.Collections;
+using System.Collections.Generic;
+using Photon.Pun;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Dice : MonoBehaviourPun
+{
+    public bool rollAble = false;
+    int myNum, over;
+    [SerializeField] Text numText;
+    [SerializeField] Text howtoText;
+    [SerializeField] Text playernameText;
+    [SerializeField] Text clearconditionText;
+    [SerializeField] Text isclearText;
+    [SerializeField] GameObject gmaeEndObj;
+    [SerializeField] GameObject playScreenObj;
+    [SerializeField] GameManager gm;
+    PhotonView PV;
+    private void Start()
+    {
+        PV = photonView;
+    }
+    private void Update()
+    {
+        if (gm.curGamename != "[ 행운 ]")
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
+        }
+        else
+        {
+            transform.GetChild(0).gameObject.SetActive(true);
+        }
+    }
+    public void GameStart(int difficulty, string playername)
+    {
+        if (difficulty == 4 || difficulty == 0)
+        {
+            return;
+        }
+        rollAble = false;
+        howtoText.gameObject.SetActive(false);
+        playernameText.text = $"게임 진행중 : {playername}";
+        numText.text = "X";
+        if (difficulty == 1) over = 2;
+        else if (difficulty == 2) over = 4;
+        else if (difficulty == 3) over = 6;
+        clearconditionText.text = $"성공조건 : {over} 이상";
+        gmaeEndObj.SetActive(false);
+        playScreenObj.SetActive(true);
+        PV.RPC("Starting", RpcTarget.Others, playername, over);
+        StartCoroutine(InProgress());
+    }
+    [PunRPC]
+    void Starting(string name, int dif)
+    {
+        gmaeEndObj.SetActive(false);
+        howtoText.gameObject.SetActive(false);
+        playernameText.text = $"게임 진행중 : {name}";
+        clearconditionText.text = $"성공조건 : {dif} 이상";
+        numText.text = "X";
+        playScreenObj.SetActive(true);
+    }
+    IEnumerator InProgress()
+    {
+        yield return new WaitForSeconds(0.2f);
+        howtoText.gameObject.SetActive(true);
+        rollAble = true;
+    }
+    public void RollStarts()
+    {
+        howtoText.gameObject.SetActive(false);
+    }
+    public void Rolled(int number)
+    {
+        myNum = number;
+        numText.text = number.ToString();
+        StartCoroutine(GameEnd());
+        PV.RPC("Rolled_", RpcTarget.Others, number, over);
+    }
+    [PunRPC]
+    void Rolled_(int number, int ovr)
+    {
+        over = ovr;
+        Debug.Log("음?");
+        myNum = number;
+        numText.text = number.ToString();
+
+        StartCoroutine(GameEnd_());
+    }
+    IEnumerator GameEnd()
+    {
+        yield return new WaitForSeconds(2f);
+        if (myNum >= over)
+            isclearText.text = "성공";
+        else
+            isclearText.text = "실패";
+        gmaeEndObj.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        playScreenObj.SetActive(false);
+        gm.MiniGameEnd_capture(myNum >= over);
+    }
+    IEnumerator GameEnd_()
+    {
+        yield return new WaitForSeconds(2f);
+        if (myNum >= over)
+            isclearText.text = "성공";
+        else
+            isclearText.text = "실패";
+        gmaeEndObj.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        playScreenObj.SetActive(false);
+        gm.EnClose();
+    }
+}
