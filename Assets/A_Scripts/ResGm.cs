@@ -28,6 +28,7 @@ public class ResGm : MonoBehaviour
         yield return new WaitForSeconds(4f);
         int resme = myScor + myGr;
         int resen = eneScor + eneGr;
+        //end point.
         if (resme > resen)
         {
             resT.text = "승리";
