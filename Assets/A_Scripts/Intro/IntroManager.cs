@@ -34,6 +34,7 @@ public class IntroManager : MonoBehaviour
             yield return new WaitForSeconds(txtDelay);
         }
         yield return new WaitForSeconds(2.5f);
+        print("Login"); //자동 로그인 확인 구간
         LoginStart.SetTrigger("Execute");
     }
 }
