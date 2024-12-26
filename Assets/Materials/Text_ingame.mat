@@ -137,10 +137,11 @@ Material:
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
     - _Color: {r: 1, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FaceColor: {r: 2.2221699, g: 2.2221699, b: 2.2221699, a: 1}
+    - _FaceColor: {r: 1.39772, g: 1.39772, b: 1.39772, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Specular: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
 --- !u!114 &3559331909065033234
 MonoBehaviour:
   m_ObjectHideFlags: 11

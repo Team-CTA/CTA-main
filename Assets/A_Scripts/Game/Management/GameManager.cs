@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public bool selectable = false;
     public bool infoOpenable = false;
     public bool gameInProgress = false;
-    public int draw = 3;
+    public int draw = 5;
     int drawRemains;
     public int nanido;
     public int cardSelectingTime = 60;
@@ -1022,11 +1022,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         Debug.Log($"parent : {lastClickedhex}");
         if (synchronizaion > 0)
         {
-            synchronizaion--;
             GameObject obj = GameObject.Find(lastClickedhex).transform.GetChild(0).gameObject;
             Hex LastHex = hexControl.FindHex(obj);
             if (Two_Same(thisHex, LastHex))
             {
+                synchronizaion--;
                 selectable = false;
                 execute = true;
                 AreaCaptured(tileObject.transform.parent.name);
@@ -1190,6 +1190,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     void MiniGameStart(string gamename)
     {
+        diceGame.ShowG();
         playCapureGameObj.SetActive(true);
         playCapureGameScreenObj.SetActive(true);
         PV.RPC("GameObj", RpcTarget.Others);

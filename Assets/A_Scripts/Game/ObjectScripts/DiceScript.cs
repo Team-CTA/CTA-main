@@ -13,7 +13,7 @@ public class DiceScript : MonoBehaviour
     private int[] angles = { 0, 90, 180, 270, 360 };
     private Vector2 startMousePosition;
     private Vector2 endMousePosition;
-    [SerializeField] float swipeThreshold = 200f; // 스와이프 최소 거리 (픽셀 단위)
+    [SerializeField] float swipeThreshold = 400f; // 스와이프 최소 거리 (픽셀 단위)
     public int recentRes = 0;
 
     #region Unity Default

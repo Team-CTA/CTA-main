@@ -184,6 +184,7 @@ public class Ability : MonoBehaviourPun
         yield return new WaitForSeconds(2f);
         playScreenObj.SetActive(false);
         gm.MiniGameEnd_capture(iswin);
+        canInput = false;
     }
     [PunRPC]
     void EneEnd(bool iswin)

@@ -21,16 +21,17 @@ public class Dice : MonoBehaviourPun
     {
         PV = photonView;
     }
-    private void Update()
+    public void ShowG()
     {
-        if (gm.curGamename != "[ 행운 ]")
+        if (PhotonNetwork.IsMasterClient)
         {
-            transform.GetChild(0).gameObject.SetActive(false);
+            PV.RPC("ShowGround", RpcTarget.All, gm.curGamename == "[ 행운 ]");
         }
-        else
-        {
-            transform.GetChild(0).gameObject.SetActive(true);
-        }
+    }
+    [PunRPC]
+    void ShowGround(bool isLuck)
+    {
+        transform.GetChild(0).gameObject.SetActive(isLuck);
     }
     public void GameStart(int difficulty, string playername)
     {
@@ -99,6 +100,7 @@ public class Dice : MonoBehaviourPun
         yield return new WaitForSeconds(2f);
         playScreenObj.SetActive(false);
         gm.MiniGameEnd_capture(myNum >= over);
+        rollAble = false;
     }
     IEnumerator GameEnd_()
     {

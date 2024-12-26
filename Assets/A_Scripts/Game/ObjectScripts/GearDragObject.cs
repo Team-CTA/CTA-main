@@ -31,7 +31,7 @@ public class GearDragObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IE
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (!gearGm.draggable) return;
+        if (!gearGm.draggable && !gearGm.gm.myScript.myturn) return;
         // 드래그 중: 마우스 위치에 따라 RectTransform 이동
         Vector2 newPosition = rectTransform.anchoredPosition + eventData.delta / canvas.scaleFactor;
 
