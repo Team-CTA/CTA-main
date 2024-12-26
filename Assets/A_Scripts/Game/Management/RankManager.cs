@@ -8,7 +8,7 @@ public class RankManager : MonoBehaviour
 {
     public static RankManager Instance { get; private set; }
 
-    private int user_rank = 0;
+    private int user_rank_point = 0;
     public UnityEngine.UI.Text rankText;  // 강민재 : UI 텍스트를 연결할 변수
 
     private void Awake()
@@ -39,7 +39,7 @@ public class RankManager : MonoBehaviour
         {
             if (result.Data != null && result.Data.ContainsKey("UserRank"))
             {
-                user_rank = int.Parse(result.Data["UserRank"].Value);
+                user_rank_point = int.Parse(result.Data["UserRank"].Value);
                 UpdateUI();
             }
         }, error =>
@@ -52,13 +52,13 @@ public class RankManager : MonoBehaviour
     {
         if (rankText != null) // 강민재 : 형식상 체크 기능 추가함..ㅎ
         {
-            rankText.text = "Rank: " + user_rank.ToString();
+            rankText.text = "Rank: " + user_rank_point.ToString();
         }
     }
 
     public void AddRankPoint(int amount)
     {
-        user_rank += amount;
+        user_rank_point += amount;
         UpdateUI();  // 강민재 : UI 업데이트
         SavePlayerData();  // 강민재 : 서버에 저장(플래이팹)
     }
@@ -69,7 +69,7 @@ public class RankManager : MonoBehaviour
         {
             Data = new Dictionary<string, string>
             {
-                { "UserRank", user_rank.ToString() },
+                { "UserRank", user_rank_point.ToString() },
             }
         };
         PlayFabClientAPI.UpdateUserData(request, result =>
