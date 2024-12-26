@@ -23,7 +23,7 @@ public class Gear : MonoBehaviourPun
     [SerializeField] GearDragObject dragObj;
     [SerializeField] GameObject gmaeEndObj;
     [SerializeField] GameObject playScreenObj;
-    [SerializeField] GameManager gm;
+    public GameManager gm;
 
     PhotonView PV;
     void Start()
@@ -80,6 +80,8 @@ public class Gear : MonoBehaviourPun
         {
             return;
         }
+        dragObj.transform.position = new Vector3(-500, 0);
+        goalObj.transform.position = new Vector3(500, 0);
         timerRunning = false;
         isGameEnd = false;
         draggable = false;
@@ -165,6 +167,7 @@ public class Gear : MonoBehaviourPun
         yield return new WaitForSeconds(2f);
         playScreenObj.SetActive(false);
         gm.MiniGameEnd_capture(iswin);
+        draggable = false;
     }
     [PunRPC]
     void EneEnd(bool iswin)
