@@ -90,7 +90,7 @@ public class SelectPannelControl : MonoBehaviour
     }
     IEnumerator OpenRanking()
     {
-        transition.OutT("NULL");
+        //transition.OutT("NULL");
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("Ranking");
     }

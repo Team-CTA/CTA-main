@@ -39,6 +39,7 @@ public class IntroManager : MonoBehaviour
         {
             //LoginUI.SetActive(false); 
             //강민재 : 씬전환 코드 추가 필요
+            LoginStart.SetTrigger("Execute"); // 강민재 : 임시
         }
         else
         {
