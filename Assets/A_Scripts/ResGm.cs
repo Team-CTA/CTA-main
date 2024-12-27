@@ -62,7 +62,7 @@ public class ResGm : MonoBehaviour
         {
             resultText.text = "승리";
             //연속 = 1승 = 2승 + 2 = 3승 + 3 ~ 10스 + 10 .. 이후 그대로 10;
-            RankManager.Instance.OnGroundScoreVictory(20);
+            //RankManager.Instance.OnGroundScoreVictory(20);
         }
         else if (resme == resenemy)
         {
