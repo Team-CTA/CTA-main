@@ -9,7 +9,8 @@ public class RankManager : MonoBehaviour
     public static RankManager Instance { get; private set; }
 
     private int user_rank_point = 0;
-    public UnityEngine.UI.Text rankText;  // 강민재 : UI 텍스트를 연결할 변수
+    public UnityEngine.UI.Text rankText;  // UI 텍스트를 연결할 변수
+    private const string RankStatisticName = "GroundScore"; // 리더보드에서 사용할 통계 이름
 
     private void Awake()
     {
@@ -31,6 +32,7 @@ public class RankManager : MonoBehaviour
 
     private void LoadRank()
     {
+        // 기존의 UserData에서 랭크 정보를 로드
         PlayFabClientAPI.GetUserData(new GetUserDataRequest()
         {
             PlayFabId = PlayFabSettings.staticPlayer.PlayFabId,
@@ -44,23 +46,29 @@ public class RankManager : MonoBehaviour
             }
         }, error =>
         {
-            Debug.LogError("Failed to load user rank: " + error.ErrorMessage);
+            Debug.LogError("유저 랭크 로드 실패 : " + error.ErrorMessage);
         });
     }
 
     private void UpdateUI()
     {
-        if (rankText != null) // 강민재 : 형식상 체크 기능 추가함..ㅎ
+        if (rankText != null)
         {
             rankText.text = "Rank: " + user_rank_point.ToString();
         }
     }
 
-    public void AddRankPoint(int amount)
+    public void OnGroundScoreVictory(int rank_amount)
+    {
+        AddRankPoint(rank_amount);
+    }
+
+    private void AddRankPoint(int amount)
     {
         user_rank_point += amount;
-        UpdateUI();  // 강민재 : UI 업데이트
-        SavePlayerData();  // 강민재 : 서버에 저장(플래이팹)
+        UpdateUI();
+        SavePlayerData();
+        UpdateLeaderboard();
     }
 
     private void SavePlayerData()
@@ -80,4 +88,29 @@ public class RankManager : MonoBehaviour
             Debug.LogError("업데이트 실패 : " + error.ErrorMessage);
         });
     }
+
+    private void UpdateLeaderboard()
+    {
+        // 강민재 : 플레이어의 랭크 점수를 리더보드에 업데이트
+        var request = new UpdatePlayerStatisticsRequest()
+        {
+            Statistics = new List<StatisticUpdate>
+        {
+            new StatisticUpdate()
+            {
+                StatisticName = RankStatisticName,  // 강민재 : 리더보드에서 사용할 통계 이름
+                Value = user_rank_point
+            }
+        }
+        };
+
+        PlayFabClientAPI.UpdatePlayerStatistics(request, result =>
+        {
+            Debug.Log("리더보드 업데이트 성공!");
+        }, error =>
+        {
+            Debug.LogError("리더보드 업데이트 실패: " + error.ErrorMessage);
+        });
+    }
+
 }
