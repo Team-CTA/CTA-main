@@ -7,12 +7,13 @@ using UnityEngine.SceneManagement;
 public class SelectPannelControl : MonoBehaviour
 {
     public GameObject rollBase, rollUI, logo;
+    [SerializeField] SoundManager soundManager = null;
     [SerializeField] TransitionScript transition;
     public Outline outline;
     public Button exit;
     public Animator ui_center;
     public Button[] ui_Pannel;
-    public AudioSource[] sounds;
+    public AudioClip[] sounds;
     public Text sel;
     bool CanChange = true, hexEnabled = false, CanClick = true;
     int curHexBtn;
@@ -30,7 +31,7 @@ public class SelectPannelControl : MonoBehaviour
             if (!hexEnabled)
             {
                 hexEnabled = true;
-                sounds[1].Play();
+                soundManager.PlaySFX(sounds[1]);
                 ui_center.SetInteger("dir", dir);
                 ui_center.SetTrigger("Enable");
             }
@@ -40,7 +41,7 @@ public class SelectPannelControl : MonoBehaviour
             if (hexEnabled)
             {
                 hexEnabled = false;
-                sounds[1].Play();
+                soundManager.PlaySFX(sounds[1]);
                 ui_center.SetInteger("dir", dir);
                 ui_center.SetTrigger("Disable");
             }
@@ -111,6 +112,11 @@ public class SelectPannelControl : MonoBehaviour
                 ui_Pannel[i].interactable = true;
             }
         }
+        if (soundManager == null)
+        {
+            soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+            soundManager.PlayBGM(sounds[2]);
+        }
     }
     void HexControl()
     {
@@ -174,7 +180,7 @@ public class SelectPannelControl : MonoBehaviour
 
         float speed = 5f;
         float k = 60 / speed;
-        sounds[0].Play();
+        soundManager.PlaySFX(sounds[0]);
         if (up)
         {
             for (int i = 0; i < k; i++)

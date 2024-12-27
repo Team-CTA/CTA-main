@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public int cardSelectingTime = 60;
     public string nickName, curPhase = "";
     public InGameUiController uiController;
+    public SoundManager soundManager = null;
     public PlayerScript myScript, eneScript;
     Dictionary<string, bool[]> phaseSet = new Dictionary<string, bool[]>
     {
@@ -219,11 +220,17 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     bool Blue = false;
     bool Red = false;
+    [SerializeField] AudioClip[] sounds;
     private void Update()
     {
+        if (soundManager == null)
+        {
+            soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+            soundManager.PlayBGM(sounds[0]);
+        }
         if (Input.GetKey(KeyCode.RightShift) && Input.GetKey(KeyCode.R))
         {
-            Red = true;
+            Red = true; //밑에 지우기
         }
         else
         {
