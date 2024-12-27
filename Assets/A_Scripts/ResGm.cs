@@ -4,44 +4,73 @@ using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class ResGm : MonoBehaviour
 {
-    [SerializeField] Text my;
-    [SerializeField] Text en;
-    [SerializeField] Text resT;
-    [SerializeField] GameObject winT;
-    int myScor, eneScor, myGr, eneGr;
+    [SerializeField] Text myScoreText;
+    [SerializeField] Text enScoreText;
+    [SerializeField] Text resultText;
+    [SerializeField] Text infoText;
+    [SerializeField] GameObject resultPannel;
+    int myScore, eneScore, myGroundScore, eneGroundScore;
 
     void Start()
     {
-        myScor = PlayerPrefs.GetInt("MyScore");
-        eneScor = PlayerPrefs.GetInt("EnemyScore");
-        myGr = PlayerPrefs.GetInt("MyScoreG");
-        eneGr = PlayerPrefs.GetInt("EnemyScoreG");
+        myScore = PlayerPrefs.GetInt("MyScore");
+        eneScore = PlayerPrefs.GetInt("EnemyScore");
+        myGroundScore = PlayerPrefs.GetInt("MyScoreG");
+        eneGroundScore = PlayerPrefs.GetInt("EnemyScoreG");
         StartCoroutine(setText());
     }
     IEnumerator setText()
     {
-        my.text = $"{myScor}+{myGr} (나)";
-        en.text = $"상대 {eneScor}+{eneGr}";
-        yield return new WaitForSeconds(4f);
-        int resme = myScor + myGr;
-        int resen = eneScor + eneGr;
-        //end point.
-        if (resme > resen)
+        infoText.text = "클리어한 미니게임 포인트";
+        int sI = 0, sE = 0;
+        for (int i = 0; i < myScore; i++)
+
         {
-            resT.text = "승리";
+            yield return new WaitForSeconds(0.05f);
+            sI++;
+            myScoreText.text = $"{sI}";
         }
-        else if (resme == resen)
+        for (int i = 0; i < eneScore; i++)
         {
-            resT.text = "무승부";
+            yield return new WaitForSeconds(0.05f);
+            sE++;
+            enScoreText.text = $"{sE}";
         }
-        else if (resme < resen)
+        yield return new WaitForSeconds(1f);
+        infoText.text = "점령 구역 포인트";
+        for (int i = 0; i < myGroundScore; i++)
         {
-            resT.text = "패배";
+            yield return new WaitForSeconds(0.05f);
+            sI++;
+            myScoreText.text = $"{sI}";
         }
-        winT.SetActive(true);
+        for (int i = 0; i < eneGroundScore; i++)
+        {
+            yield return new WaitForSeconds(0.05f);
+            sE++;
+            enScoreText.text = $"{sE}";
+        }
+        infoText.text = "결산 종료";
+        yield return new WaitForSeconds(3f);
+        int resme = myScore + myGroundScore;
+        int resenemy = eneScore + eneGroundScore;
+        if (resme > resenemy)
+        {
+            resultText.text = "승리";
+        }
+        else if (resme == resenemy)
+        {
+            resultText.text = "무승부";
+        }
+        else if (resme < resenemy)
+        {
+            resultText.text = "패배";
+        }
+        resultPannel.SetActive(true);
         yield return new WaitForSeconds(3f);
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene("Main");
