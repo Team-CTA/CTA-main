@@ -58,7 +58,7 @@ public class LeaderboardManager : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-        foreach (var item in result.Leaderboard)
+        foreach (var item in result.Leaderboard) // 강민재 : 50명 넘었을때 버그 체크 핊요.
         {
             GameObject leaderboardItem = Instantiate(User, Content);
 
