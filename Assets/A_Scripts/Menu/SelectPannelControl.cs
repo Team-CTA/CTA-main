@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SelectPannelControl : MonoBehaviour
 {
     public GameObject rollBase, rollUI, logo;
+    [SerializeField] TransitionScript transition;
     public Outline outline;
     public Button exit;
     public Animator ui_center;
@@ -59,8 +61,8 @@ public class SelectPannelControl : MonoBehaviour
 
         ui_Pannel[1].onClick.AddListener(() =>
         {
-            // HexEnable(true, 1);
-        });
+            StartCoroutine(OpenRanking());
+        }); // ranking
 
 
         ui_Pannel[2].onClick.AddListener(() =>
@@ -85,6 +87,12 @@ public class SelectPannelControl : MonoBehaviour
 
 
     }
+    IEnumerator OpenRanking()
+    {
+        transition.OutT("NULL");
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("Ranking");
+    }
     void ChangeEnable()
     {
         CanClick = true;
@@ -92,6 +100,17 @@ public class SelectPannelControl : MonoBehaviour
     void Update()
     {
         HexControl();
+        for (int i = 0; i < 6; i++)
+        {
+            if (i != curHexBtn || i == 2 || i == 4)
+            {
+                ui_Pannel[i].interactable = false;
+            }
+            else
+            {
+                ui_Pannel[i].interactable = true;
+            }
+        }
     }
     void HexControl()
     {
