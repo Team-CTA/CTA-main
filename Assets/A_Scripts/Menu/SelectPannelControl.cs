@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 
 public class SelectPannelControl : MonoBehaviour
 {
-    public GameObject rollBase, rollUI, logo;
-    [SerializeField] SoundManager soundManager = null;
+    public GameObject rollBase, rollUI, logo, options;
+    SoundManager soundManager = null;
     [SerializeField] TransitionScript transition;
     public Outline outline;
     public Button exit;
@@ -62,7 +62,7 @@ public class SelectPannelControl : MonoBehaviour
 
         ui_Pannel[1].onClick.AddListener(() =>
         {
-            StartCoroutine(OpenRanking());
+            StartCoroutine(ChangeScene("Ranking"));
         }); // ranking
 
 
@@ -73,8 +73,8 @@ public class SelectPannelControl : MonoBehaviour
 
         ui_Pannel[3].onClick.AddListener(() =>
         {
-
-        });
+            options.SetActive(true);
+        }); //Options
 
         ui_Pannel[4].onClick.AddListener(() =>
         {
@@ -88,11 +88,11 @@ public class SelectPannelControl : MonoBehaviour
 
 
     }
-    IEnumerator OpenRanking()
+    IEnumerator ChangeScene(string scene)
     {
         transition.OutT("NULL");
         yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene("Ranking");
+        SceneManager.LoadScene(scene);
     }
     void ChangeEnable()
     {
@@ -148,6 +148,8 @@ public class SelectPannelControl : MonoBehaviour
             }
         }
         sel.text = "| " + ui_Pannel[curHexBtn].gameObject.name.ToString();
+        outline.effectColor = OutlineColor[curHexBtn];
+
         // Debug.Log(ui_Pannel[curHexBtn].gameObject.name);
         //만약 enter key를 입력받았으면
         if (Input.GetKeyDown(KeyCode.Return))
@@ -205,6 +207,15 @@ public class SelectPannelControl : MonoBehaviour
             }
         }
         CanChange = true;
-        outline.effectColor = OutlineColor[curHexBtn];
+    }
+    public void CloseOptons()
+    {
+        options.SetActive(false);
+    }
+    public void LogOut()
+    {
+        PlayerPrefs.DeleteKey("USERNAME");
+
+        StartCoroutine(ChangeScene("Login"));
     }
 }

@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public int cardSelectingTime = 60;
     public string nickName, curPhase = "";
     public InGameUiController uiController;
-    public SoundManager soundManager = null;
+    SoundManager soundManager = null;
     public PlayerScript myScript, eneScript;
     Dictionary<string, bool[]> phaseSet = new Dictionary<string, bool[]>
     {
