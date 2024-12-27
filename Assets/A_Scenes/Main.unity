@@ -828,6 +828,7 @@ MonoBehaviour:
   rollBase: {fileID: 182805120}
   rollUI: {fileID: 34887663}
   logo: {fileID: 1516962082}
+  transition: {fileID: 0}
   outline: {fileID: 1962604290}
   exit: {fileID: 1475109477}
   ui_center: {fileID: 1716504668}
@@ -4338,7 +4339,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 693e2e77bbb5541c59fa32f072c632dc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 41618cf0ad5e24b1fa4c224df3bac22f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6965,7 +6966,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 693e2e77bbb5541c59fa32f072c632dc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 41618cf0ad5e24b1fa4c224df3bac22f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
