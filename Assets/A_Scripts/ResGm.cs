@@ -28,6 +28,7 @@ public class ResGm : MonoBehaviour
         infoText.text = "클리어한 미니게임 포인트";
         int sI = 0, sE = 0;
         for (int i = 0; i < myScore; i++)
+
         {
             yield return new WaitForSeconds(0.05f);
             sI++;

@@ -34,6 +34,15 @@ public class IntroManager : MonoBehaviour
             yield return new WaitForSeconds(txtDelay);
         }
         yield return new WaitForSeconds(2.5f);
-        LoginStart.SetTrigger("Execute");
+        print("Login"); //자동 로그인 확인 구간
+        if (PlayerPrefs.HasKey("USERNAME"))
+        {
+            //LoginUI.SetActive(false); 
+            //강민재 : 씬전환 코드 추가 필요
+        }
+        else
+        {
+            LoginStart.SetTrigger("Execute");
+        }
     }
 }
