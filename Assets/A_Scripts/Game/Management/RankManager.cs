@@ -60,6 +60,7 @@ public class RankManager : MonoBehaviour
 
     public void OnGroundScoreVictory(int rank_amount)
     {
+        //rank_amount*(0.2*)
         AddRankPoint(rank_amount);
     }
 
