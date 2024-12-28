@@ -27,7 +27,13 @@ public class LeaderboardManager : MonoBehaviour
         {
             StatisticName = "GroundScore",
             StartPosition = 0,
-            MaxResultsCount = 50
+            MaxResultsCount = 50,
+            ProfileConstraints = new PlayerProfileViewConstraints() // 강민재 : 권한 추가 -> 설마 이용약관 만들어야함..?
+            {
+                ShowLocations = true,
+                ShowDisplayName = true
+            }
+
         };
 
         PlayFabClientAPI.GetLeaderboard(request, OnLeaderboardReceived, OnError);
@@ -61,7 +67,7 @@ public class LeaderboardManager : MonoBehaviour
 
         foreach (var item in result.Leaderboard)
         {
-            string countryCode = "kr"; // 강민재 : 기본 값
+            string countryCode = "us"; // 강민재 : 기본 값
 
             if (item.Profile.Locations != null)
             {
