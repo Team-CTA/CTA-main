@@ -112,6 +112,30 @@ public class Login_ : MonoBehaviour
             {
                 StatisticName = "GroundScore",
                 Value = 0
+            },
+            // 강민재 : 승리
+            new StatisticUpdate()
+            {
+                StatisticName = "Wins",
+                Value = 0
+            },
+            // 강민재 : 패배
+            new StatisticUpdate()
+            {
+                StatisticName = "Losses",
+                Value = 0
+            },
+            // 강민재 : 무승부
+            new StatisticUpdate()
+            {
+                StatisticName = "Draws",
+                Value = 0
+            },
+            // 강민재 : 승률
+            new StatisticUpdate()
+            {
+                StatisticName = "WinRate",
+                Value = CalculateWinRate(0, 0)
             }
         }
         };
@@ -125,6 +149,17 @@ public class Login_ : MonoBehaviour
             {
                 Debug.LogError("리더보드에 GroundScore 설정 오류 : " + error.GenerateErrorReport());
             });
+    }
+    private int CalculateWinRate(int wins, int losses)
+    {
+        if (wins + losses == 0)
+        {
+            return 0;
+        }
+
+        float winRate = (float)wins / (wins + losses);
+
+        return Mathf.RoundToInt(winRate * 100);
     }
     public void SetUsername(string name)
     {
