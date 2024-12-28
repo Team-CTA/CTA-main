@@ -20,6 +20,7 @@ public class Login_ : MonoBehaviour
     [SerializeField] TMP_InputField user;
     [SerializeField] TMP_InputField pass;
     [SerializeField] TMP_InputField emailField;
+    [SerializeField] Toggle posCheck;
     bool isSignin = false;
 
     #region  Unity Methods
@@ -85,8 +86,9 @@ public class Login_ : MonoBehaviour
         }
         else
         {
+            if (!posCheck.isOn) return;
             if (!CheckUsername()) return; // 여따는 이름길이 적을때 할거
-            // 여기 나중에 이메일 확인도 넣든 해야지.
+                                          // 여기 나중에 이메일 확인도 넣든 해야지.
             RegisterPlayFabUserRequest signinRequest = new RegisterPlayFabUserRequest();
             signinRequest.Email = emailAdress;
             signinRequest.Username = username;
