@@ -47,24 +47,39 @@ public class LeaderboardManager : MonoBehaviour
         if (result.Data != null && result.Data.ContainsKey("PlayerName"))
         {
             userName = result.Data["PlayerName"].Value;
-            Debug.Log("Player Name: " + userName);
+            Debug.Log("Player Name : " + userName);
         }
     }
 
     private void OnLeaderboardReceived(GetLeaderboardResult result)
     {
+        // 기존 UI 아이템 초기화
         foreach (Transform child in Content)
         {
             Destroy(child.gameObject);
         }
 
-        foreach (var item in result.Leaderboard) // 강민재 : 50명 넘었을때 버그 체크 핊요.
+        foreach (var item in result.Leaderboard)
         {
+            string countryCode = "kr"; // 강민재 : 기본 값
+
+            if (item.Profile.Locations != null)
+            {
+                countryCode = item.Profile.Locations[0].CountryCode.Value.ToString().ToLower();
+                Debug.Log("User Country : " + countryCode);
+            }
+            else
+            {
+                Debug.LogWarning("국가 정보 없음, 기본값 'kr' 사용."); // 강민재 : 확인 -> 수정 필요
+            }
+
             GameObject leaderboardItem = Instantiate(User, Content);
 
             Text rankingText = leaderboardItem.transform.Find("Rank").GetComponent<Text>();
             Text usernameText = leaderboardItem.transform.Find("Name").GetComponent<Text>();
             Text trophyText = leaderboardItem.transform.Find("GS").GetComponent<Text>();
+
+            Image countryImage = leaderboardItem.transform.Find("Country").GetComponent<Image>();
 
             rankingText.text = GetRankSuffix(item.Position + 1);
             SetRankingColor(rankingText, item.Position);
@@ -72,9 +87,18 @@ public class LeaderboardManager : MonoBehaviour
             usernameText.text = item.DisplayName;
             trophyText.text = item.StatValue.ToString();
 
+            Sprite countrySprite = Resources.Load<Sprite>("CountryImages/" + countryCode);
+            if (countrySprite != null)
+            {
+                countryImage.sprite = countrySprite;
+            }
+            else
+            {
+                Debug.LogError("국가 이미지가 없음 : " + countryCode);
+            }
+
             if (item.DisplayName == PlayerPrefs.GetString("USERNAME"))
             {
-                Debug.Log("세팅 성공!");
                 userRank = item.Position + 1;
 
                 myName.text = PlayerPrefs.GetString("USERNAME");
@@ -82,6 +106,7 @@ public class LeaderboardManager : MonoBehaviour
                 SetRankingColor(myRank, userRank - 1);
             }
         }
+
     }
 
     private string GetRankSuffix(int rank)
@@ -100,24 +125,24 @@ public class LeaderboardManager : MonoBehaviour
     {
         if (position == 0)
         {
-            rankingText.color = new Color(1f, 0.84f, 0f);
+            rankingText.color = new Color(1f, 0.84f, 0f); // Gold
         }
         else if (position == 1)
         {
-            rankingText.color = new Color(0.75f, 0.75f, 0.75f);
+            rankingText.color = new Color(0.75f, 0.75f, 0.75f); // Silver
         }
         else if (position == 2)
         {
-            rankingText.color = new Color(0.8f, 0.52f, 0.25f);
+            rankingText.color = new Color(0.8f, 0.52f, 0.25f); // Bronze
         }
         else
         {
-            rankingText.color = new Color(1f, 1f, 1f);
+            rankingText.color = new Color(1f, 1f, 1f); // White
         }
     }
 
     private void OnError(PlayFabError error)
     {
-        Debug.LogError("Error fetching leaderboard: " + error.GenerateErrorReport());
+        Debug.LogError("리더보드 에러 : " + error.GenerateErrorReport());
     }
 }
