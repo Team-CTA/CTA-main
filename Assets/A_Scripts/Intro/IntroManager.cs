@@ -1,9 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using PlayFab;
+using PlayFab.ClientModels;
+
 
 public class IntroManager : MonoBehaviour
 {
@@ -38,7 +39,27 @@ public class IntroManager : MonoBehaviour
         print("Login"); //자동 로그인 확인 구간
         if (PlayerPrefs.HasKey("USERNAME"))
         {
-            SceneManager.LoadScene("Main");
+            string username = PlayerPrefs.GetString("USERNAME");
+            string password = PlayerPrefs.GetString("PASSWORD"); // 강민재 : 혹시 모를 보안 문제 체크 필요
+
+            LoginWithPlayFabRequest loginRequest = new LoginWithPlayFabRequest
+            {
+                Username = username,
+                Password = password
+            };
+
+            PlayFabClientAPI.LoginWithPlayFab(loginRequest,
+                result =>
+                {
+                    Debug.Log($"자동 로그인 성공 : {username}");
+                    SceneManager.LoadScene("Main");
+                },
+                error =>
+                {
+                    Debug.Log($"자동 로그인 실패: {error.GenerateErrorReport()}"); //강민재 : 일단 에러 띄우는걸로 대체
+                    LoginStart.SetTrigger("Execute"); // 강민재 : 일단 추가 함
+                }
+            );
         }
         else
         {
