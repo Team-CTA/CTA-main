@@ -18,6 +18,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public HexControl hexControl = new HexControl();
     // x값 두배좌표
 
+    [SerializeField] GameObject CheckInfoPnl;
+    [SerializeField] Text enNameInfo;
+    [SerializeField] Text enRankInfo;
+    [SerializeField] Text enWinRateInfo;
     [SerializeField] Text fuck;
 
     [Header("타일 생성 설정")]
@@ -276,6 +280,11 @@ public class GameManager : MonoBehaviourPunCallbacks
             yield return null;
             Debug.Log("re>");
         }
+        CheckInfoPnl.SetActive(true);
+        enNameInfo.text = eneScript.gameObject.GetPhotonView().Owner.NickName;
+        enRankInfo.text = $"Rank #{RankManager.Instance.UserRank}";
+        // enWinRateInfo.text = $"WinRate #{StatManager.Instance.GetWinRate()}";
+        yield return new WaitForSeconds(5f);
         if (PhotonNetwork.IsMasterClient)
         {
             PV.RPC("FirTurnSel", RpcTarget.MasterClient, Random.Range(0, 2));
@@ -1197,7 +1206,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     void MiniGameStart(string gamename)
     {
-        diceGame.ShowG();
         playCapureGameObj.SetActive(true);
         playCapureGameScreenObj.SetActive(true);
         PV.RPC("GameObj", RpcTarget.Others);
