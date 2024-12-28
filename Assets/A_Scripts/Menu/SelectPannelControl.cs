@@ -218,6 +218,8 @@ public class SelectPannelControl : MonoBehaviour
     public void LogOut()
     {
         PlayerPrefs.DeleteKey("USERNAME");
+        PlayerPrefs.DeleteKey("PASSWORD");
+        Debug.Log("로그아웃!");
         OpenScene("Login");
     }
 }

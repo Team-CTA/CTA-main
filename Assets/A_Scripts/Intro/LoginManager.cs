@@ -78,6 +78,7 @@ public class Login_ : MonoBehaviour
                 Debug.Log($"로그인 성공. {username} - 접속중...");
                 UpdateDisplayName(username);
                 PlayerPrefs.SetString("USERNAME", username);
+                PlayerPrefs.SetString("PASSWORD", password);
                 currentState.text = "로그인 완료! 접속중...";
                 StartCoroutine(SceneDelayChange("Main", 1f));
             }, OnFailure, null);
@@ -95,8 +96,33 @@ public class Login_ : MonoBehaviour
             {
                 Debug.Log("계정 생성됨.");
                 currentState.text = "계정이 생성되었습니다. [" + username + "]";
+                StartScore();
             }, OnFailure);
         }
+    }
+    private void StartScore()
+    {
+        var leaderboardRequest = new UpdatePlayerStatisticsRequest()
+        {
+            Statistics = new System.Collections.Generic.List<StatisticUpdate>()
+        {
+            new StatisticUpdate()
+            {
+                StatisticName = "GroundScore",
+                Value = 0
+            }
+        }
+        };
+
+        PlayFabClientAPI.UpdatePlayerStatistics(leaderboardRequest,
+            result =>
+            {
+                Debug.Log("GroundScore 설정 성공");
+            },
+            error =>
+            {
+                Debug.LogError("리더보드에 GroundScore 설정 오류 : " + error.GenerateErrorReport());
+            });
     }
     public void SetUsername(string name)
     {
@@ -108,6 +134,7 @@ public class Login_ : MonoBehaviour
     {
         Debug.Log(pw);
         password = pass.text;
+        PlayerPrefs.SetString("PASSWORD", password); // 강민재 : 자동 로그인을 위한 패스워드 저장
     }
     public void SetEmail(string email)
     {
@@ -176,4 +203,6 @@ public class Login_ : MonoBehaviour
         return false;
     }
     #endregion
+
+
 }
