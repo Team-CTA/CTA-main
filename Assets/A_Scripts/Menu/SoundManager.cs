@@ -33,7 +33,7 @@ public class SoundManager : MonoBehaviour
         sfxSource.volume = sfxVolume;
         if (SceneManager.GetActiveScene().name == "Login")
         {
-            bgmSource.Stop();
+            bgmSource.clip = null;
         }
     }
 

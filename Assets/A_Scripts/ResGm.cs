@@ -61,29 +61,47 @@ public class ResGm : MonoBehaviour
         if (resme > resenemy)
         {
             resultText.text = "승리";
+            PlayerPrefs.DeleteKey("LOOSESTACK");
+
             if (PlayerPrefs.HasKey("WINSTACK"))
             {
                 int stack = PlayerPrefs.GetInt("WINSTACK");
                 if (stack < 10) stack++;
                 PlayerPrefs.SetInt("WINSTACK", stack);
-
+                // 여기에 점수 추가하는거 넣으면 됨
+                // 점수는 10+stack
             }
             else
             {
                 PlayerPrefs.SetInt("WINSTACK", 1);
+                // 여기에 점수 추가하는거 넣으면 됨
+                // 점수는 10
             }
 
-            //연속 = 1승 = 2승 + 2 = 3승 + 3 ~ 10스 + 10 .. 이후 그대로 10;
-            //RankManager.Instance.OnGroundScoreVictory(20);
         }
         else if (resme == resenemy)
         {
             resultText.text = "무승부";
+            // 여기에 점수 +2점
         }
         else if (resme < resenemy)
         {
             resultText.text = "패배";
             PlayerPrefs.DeleteKey("WINSTACK");
+            if (PlayerPrefs.HasKey("LOOSESTACK"))
+            {
+                int stack = PlayerPrefs.GetInt("LOOSESTACK");
+                if (stack < 10) stack++;
+                PlayerPrefs.SetInt("LOOSESTACK", stack);
+                // 여기에 점수 빼는거 넣으면 됨
+                // 점수는 -(10+stack)
+            }
+            else
+            {
+                PlayerPrefs.SetInt("LOOSESTACK", 1);
+                // 여기에 점수 빼는거 넣으면 됨
+                // 점수는 -10
+            }
         }
         resultPannel.SetActive(true);
         yield return new WaitForSeconds(3f);
