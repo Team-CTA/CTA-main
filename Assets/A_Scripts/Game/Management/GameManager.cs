@@ -283,7 +283,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         CheckInfoPnl.SetActive(true);
         enNameInfo.text = eneScript.gameObject.GetPhotonView().Owner.NickName;
         enRankInfo.text = $"Rank #{RankManager.Instance.UserRank}";
-        // enWinRateInfo.text = $"WinRate #{StatManager.Instance.GetWinRate()}";
+        enWinRateInfo.text = $"WinRate #{StatManager.Instance.GetWinRate()}";
         yield return new WaitForSeconds(5f);
         if (PhotonNetwork.IsMasterClient)
         {

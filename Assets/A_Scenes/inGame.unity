@@ -2223,7 +2223,7 @@ GameObject:
   - component: {fileID: 166592105}
   - component: {fileID: 166592104}
   m_Layer: 5
-  m_Name: Rank (1)
+  m_Name: Winrate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2281,7 +2281,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Win Rate 56%
+  m_Text: WinRate 56%
 --- !u!222 &166592105
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4832,7 +4832,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &418506924
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17578,8 +17578,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CheckInfoPnl: {fileID: 418506923}
-  enNameInfo: {fileID: 0}
-  enRankInfo: {fileID: 0}
+  enNameInfo: {fileID: 2129560418}
+  enRankInfo: {fileID: 525927252}
+  enWinRateInfo: {fileID: 166592104}
   fuck: {fileID: 338528580}
   hex0: {fileID: 7395480058063218497, guid: b31ba0e24af5a44839d3588656143cea, type: 3}
   hex1: {fileID: 563842283452027778, guid: 131d94130884148bea3f7f9cd36c4e17, type: 3}
