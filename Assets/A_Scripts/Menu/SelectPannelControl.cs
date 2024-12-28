@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class SelectPannelControl : MonoBehaviour
 {
-    public GameObject rollBase, rollUI, logo;
+    public GameObject rollBase, rollUI, logo, optins;
     [SerializeField] SoundManager soundManager = null;
     [SerializeField] TransitionScript transition;
     public Outline outline;
@@ -62,7 +62,7 @@ public class SelectPannelControl : MonoBehaviour
 
         ui_Pannel[1].onClick.AddListener(() =>
         {
-            StartCoroutine(OpenRanking());
+            StartCoroutine(OpenScene("Ranking"));
         }); // ranking
 
 
@@ -73,8 +73,8 @@ public class SelectPannelControl : MonoBehaviour
 
         ui_Pannel[3].onClick.AddListener(() =>
         {
-
-        });
+            optins.SetActive(true);
+        }); // Options
 
         ui_Pannel[4].onClick.AddListener(() =>
         {
@@ -88,11 +88,11 @@ public class SelectPannelControl : MonoBehaviour
 
 
     }
-    IEnumerator OpenRanking()
+    IEnumerator OpenScene(string scene)
     {
-        //transition.OutT("NULL");
+        transition.OutT("NULL");
         yield return new WaitForSeconds(3f);
-        SceneManager.LoadScene("Ranking");
+        SceneManager.LoadScene(scene);
     }
     void ChangeEnable()
     {
@@ -115,6 +115,10 @@ public class SelectPannelControl : MonoBehaviour
         if (soundManager == null)
         {
             soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+        }
+        else
+        {
+
             soundManager.PlayBGM(sounds[2]);
         }
     }
@@ -206,5 +210,14 @@ public class SelectPannelControl : MonoBehaviour
         }
         CanChange = true;
         outline.effectColor = OutlineColor[curHexBtn];
+    }
+    public void CloseOptions()
+    {
+        optins.SetActive(false);
+    }
+    public void LogOut()
+    {
+        PlayerPrefs.DeleteKey("USERNAME");
+        OpenScene("Login");
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class IntroManager : MonoBehaviour
 {
@@ -37,9 +38,7 @@ public class IntroManager : MonoBehaviour
         print("Login"); //자동 로그인 확인 구간
         if (PlayerPrefs.HasKey("USERNAME"))
         {
-            //LoginUI.SetActive(false); 
-            //강민재 : 씬전환 코드 추가 필요
-            LoginStart.SetTrigger("Execute"); // 강민재 : 임시
+            SceneManager.LoadScene("Main");
         }
         else
         {
