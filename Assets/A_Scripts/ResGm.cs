@@ -61,6 +61,18 @@ public class ResGm : MonoBehaviour
         if (resme > resenemy)
         {
             resultText.text = "승리";
+            if (PlayerPrefs.HasKey("WINSTACK"))
+            {
+                int stack = PlayerPrefs.GetInt("WINSTACK");
+                if (stack < 10) stack++;
+                PlayerPrefs.SetInt("WINSTACK", stack);
+
+            }
+            else
+            {
+                PlayerPrefs.SetInt("WINSTACK", 1);
+            }
+
             //연속 = 1승 = 2승 + 2 = 3승 + 3 ~ 10스 + 10 .. 이후 그대로 10;
             //RankManager.Instance.OnGroundScoreVictory(20);
         }
@@ -71,6 +83,7 @@ public class ResGm : MonoBehaviour
         else if (resme < resenemy)
         {
             resultText.text = "패배";
+            PlayerPrefs.DeleteKey("WINSTACK");
         }
         resultPannel.SetActive(true);
         yield return new WaitForSeconds(3f);
