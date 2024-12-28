@@ -70,12 +70,14 @@ public class ResGm : MonoBehaviour
                 PlayerPrefs.SetInt("WINSTACK", stack);
                 // 여기에 점수 추가하는거 넣으면 됨
                 // 점수는 10+stack
+                RankManager.Instance.AddScore(10 + stack); // 강민재 : 추가함
             }
             else
             {
                 PlayerPrefs.SetInt("WINSTACK", 1);
                 // 여기에 점수 추가하는거 넣으면 됨
                 // 점수는 10
+                RankManager.Instance.AddScore(10); // 강민재 : 추가함
             }
 
         }
@@ -83,6 +85,7 @@ public class ResGm : MonoBehaviour
         {
             resultText.text = "무승부";
             // 여기에 점수 +2점
+            RankManager.Instance.AddScore(2); // 강민재 : 추가함
         }
         else if (resme < resenemy)
         {
@@ -95,12 +98,14 @@ public class ResGm : MonoBehaviour
                 PlayerPrefs.SetInt("LOOSESTACK", stack);
                 // 여기에 점수 빼는거 넣으면 됨
                 // 점수는 -(10+stack)
+                RankManager.Instance.AddScore(-(10 + stack)); // 강민재 : 추가함
             }
             else
             {
                 PlayerPrefs.SetInt("LOOSESTACK", 1);
                 // 여기에 점수 빼는거 넣으면 됨
                 // 점수는 -10
+                RankManager.Instance.AddScore(-10); // 강민재 : 추가함
             }
         }
         resultPannel.SetActive(true);
