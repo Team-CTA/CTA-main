@@ -96,8 +96,33 @@ public class Login_ : MonoBehaviour
             {
                 Debug.Log("계정 생성됨.");
                 currentState.text = "계정이 생성되었습니다. [" + username + "]";
+                StartScore();
             }, OnFailure);
         }
+    }
+    private void StartScore()
+    {
+        var leaderboardRequest = new UpdatePlayerStatisticsRequest()
+        {
+            Statistics = new System.Collections.Generic.List<StatisticUpdate>()
+        {
+            new StatisticUpdate()
+            {
+                StatisticName = "GroundScore",
+                Value = 0
+            }
+        }
+        };
+
+        PlayFabClientAPI.UpdatePlayerStatistics(leaderboardRequest,
+            result =>
+            {
+                Debug.Log("GroundScore 설정 성공");
+            },
+            error =>
+            {
+                Debug.LogError("리더보드에 GroundScore 설정 오류 : " + error.GenerateErrorReport());
+            });
     }
     public void SetUsername(string name)
     {
