@@ -4,8 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
-public class LeaderboardManager : MonoBehaviour
+public class RankManager : MonoBehaviour
 {
+    public static RankManager Instance { get; private set; }
+
     public GameObject User;
     public Transform Content;
 
@@ -14,12 +16,28 @@ public class LeaderboardManager : MonoBehaviour
 
     private string userName;
     private int userRank = -1;
+    private int userScore = 0;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
-        PlayFabSettings.TitleId = "1E0CD"; // 강민재 : 일단 이런식으로 세팅했는데, 수정해야할듯
+        PlayFabSettings.TitleId = "1E0CD";
         GetLeaderboard();
     }
+
+    public int UserRank => userRank;
+    public int UserScore => userScore;
 
     public void GetLeaderboard()
     {
@@ -28,12 +46,11 @@ public class LeaderboardManager : MonoBehaviour
             StatisticName = "GroundScore",
             StartPosition = 0,
             MaxResultsCount = 50,
-            ProfileConstraints = new PlayerProfileViewConstraints() // 강민재 : 권한 추가 -> 설마 이용약관 만들어야함..?
+            ProfileConstraints = new PlayerProfileViewConstraints()
             {
                 ShowLocations = true,
                 ShowDisplayName = true
             }
-
         };
 
         PlayFabClientAPI.GetLeaderboard(request, OnLeaderboardReceived, OnError);
@@ -59,7 +76,6 @@ public class LeaderboardManager : MonoBehaviour
 
     private void OnLeaderboardReceived(GetLeaderboardResult result)
     {
-        // 기존 UI 아이템 초기화
         foreach (Transform child in Content)
         {
             Destroy(child.gameObject);
@@ -67,7 +83,7 @@ public class LeaderboardManager : MonoBehaviour
 
         foreach (var item in result.Leaderboard)
         {
-            string countryCode = "us"; // 강민재 : 기본 값
+            string countryCode = "us"; // 강민재 : 기본값 지정한거ㅓ
 
             if (item.Profile.Locations != null)
             {
@@ -76,7 +92,7 @@ public class LeaderboardManager : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("국가 정보 없음, 기본값 'kr' 사용."); // 강민재 : 확인 -> 수정 필요
+                Debug.LogWarning("국가 정보 없음, 기본값 'kr' 사용.");
             }
 
             GameObject leaderboardItem = Instantiate(User, Content);
@@ -106,13 +122,13 @@ public class LeaderboardManager : MonoBehaviour
             if (item.DisplayName == PlayerPrefs.GetString("USERNAME"))
             {
                 userRank = item.Position + 1;
+                userScore = item.StatValue;
 
                 myName.text = PlayerPrefs.GetString("USERNAME");
                 myRank.text = GetRankSuffix(userRank);
                 SetRankingColor(myRank, userRank - 1);
             }
         }
-
     }
 
     private string GetRankSuffix(int rank)
@@ -145,6 +161,32 @@ public class LeaderboardManager : MonoBehaviour
         {
             rankingText.color = new Color(1f, 1f, 1f); // White
         }
+    }
+
+    public void AddScore(int amount) // 강민재 : 계산
+    {
+        userScore += amount;
+        if (userScore < 0) userScore = 0;
+        UpdateUserScore();
+    }
+
+    private void UpdateUserScore()
+    {
+        var request = new UpdatePlayerStatisticsRequest()
+        {
+            Statistics = new List<StatisticUpdate>
+            {
+                new StatisticUpdate { StatisticName = "GroundScore", Value = userScore }
+            }
+        };
+
+        PlayFabClientAPI.UpdatePlayerStatistics(request, OnScoreUpdated, OnError);
+    }
+
+    private void OnScoreUpdated(UpdatePlayerStatisticsResult result)
+    {
+        Debug.Log("Score updated successfully");
+        GetLeaderboard();
     }
 
     private void OnError(PlayFabError error)
