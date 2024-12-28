@@ -64,6 +64,7 @@ public class ResGm : MonoBehaviour
         {
             resultText.text = "승리";
             PlayerPrefs.DeleteKey("LOOSESTACK");
+            StatManager.Instance.WinScore();
 
             if (PlayerPrefs.HasKey("WINSTACK"))
             {
@@ -88,6 +89,7 @@ public class ResGm : MonoBehaviour
         else if (resme == resenemy)
         {
             resultText.text = "무승부";
+            StatManager.Instance.DrawsScore();
             // 여기에 점수 +2점
             RankManager.Instance.AddScore(2); // 강민재 : 추가함
             AddedGs = 2;
@@ -95,6 +97,7 @@ public class ResGm : MonoBehaviour
         else if (resme < resenemy)
         {
             resultText.text = "패배";
+            StatManager.Instance.LossesScore();
             PlayerPrefs.DeleteKey("WINSTACK");
             if (PlayerPrefs.HasKey("LOOSESTACK"))
             {

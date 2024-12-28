@@ -16,7 +16,7 @@ public class StatManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject); // 필요한 경우 사용
         }
         else
         {
@@ -24,6 +24,70 @@ public class StatManager : MonoBehaviour
         }
 
         PlayFabSettings.TitleId = "1E0CD";
+    }
+
+    private void Start()
+    {
+        Login();
+    }
+
+    private void Login()
+    {
+        if (PlayerPrefs.HasKey("USERNAME"))
+        {
+            string username = PlayerPrefs.GetString("USERNAME");
+            string password = PlayerPrefs.GetString("PASSWORD");
+
+            LoginWithPlayFabRequest loginRequest = new LoginWithPlayFabRequest
+            {
+                Username = username,
+                Password = password
+            };
+            PlayFabClientAPI.LoginWithPlayFab(loginRequest, OnLoginSuccess, OnLoginError);
+        }
+        else
+        {
+            Debug.Log("회원가입 필요.");
+        }
+    }
+
+    private void OnLoginSuccess(LoginResult result)
+    {
+        LoadUserStats();
+    }
+
+    private void OnLoginError(PlayFabError error)
+    {
+        Debug.LogError("로드 에러 : " + error.GenerateErrorReport());
+    }
+
+    private void LoadUserStats()
+    {
+        var request = new GetPlayerStatisticsRequest();
+        PlayFabClientAPI.GetPlayerStatistics(request, OnStatsLoaded, OnError);
+    }
+
+    private void OnStatsLoaded(GetPlayerStatisticsResult result)
+    {
+        foreach (var stat in result.Statistics)
+        {
+            if (stat.StatisticName == "Wins")
+            {
+                user_wins = stat.Value;
+            }
+            else if (stat.StatisticName == "Losses")
+            {
+                user_losses = stat.Value;
+            }
+            else if (stat.StatisticName == "Draws")
+            {
+                user_Draws = stat.Value;
+            }
+        }
+        Debug.Log("GetUserWins : " + GetUserWins());
+        Debug.Log("GetUserLosses : " + GetUserLosses());
+        Debug.Log("GetUserDraws : " + GetUserDraws());
+        Debug.Log("GetUserWinRate : " + GetUserWinRate());
     }
 
     public void WinScore()
@@ -83,12 +147,8 @@ public class StatManager : MonoBehaviour
         return user_wins + user_losses + user_Draws;
     }
 
-    public int GetWinRate()
-    {
-        return CalculateWinRate(user_wins, user_losses);
-    }
-
-    public int GetWins() => user_wins;
-    public int GetLosses() => user_losses;
-    public int GetDraws() => user_Draws;
+    public int GetUserWins() => user_wins;
+    public int GetUserLosses() => user_losses;
+    public int GetUserDraws() => user_Draws;
+    public int GetUserWinRate() => CalculateWinRate(user_wins, user_losses);
 }
