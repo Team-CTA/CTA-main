@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.VisualScripting;
+using Unity.Mathematics;
 
 public class ResGm : MonoBehaviour
 {
@@ -12,9 +13,10 @@ public class ResGm : MonoBehaviour
     [SerializeField] Text enScoreText;
     [SerializeField] Text resultText;
     [SerializeField] Text infoText;
+    [SerializeField] Text gsText;
     [SerializeField] GameObject resultPannel;
     int myScore, eneScore, myGroundScore, eneGroundScore;
-
+    int AddedGs;
     void Start()
     {
         myScore = PlayerPrefs.GetInt("MyScore");
@@ -71,6 +73,7 @@ public class ResGm : MonoBehaviour
                 // 여기에 점수 추가하는거 넣으면 됨
                 // 점수는 10+stack
                 RankManager.Instance.AddScore(10 + stack); // 강민재 : 추가함
+                AddedGs = 10 + stack;
             }
             else
             {
@@ -78,6 +81,7 @@ public class ResGm : MonoBehaviour
                 // 여기에 점수 추가하는거 넣으면 됨
                 // 점수는 10
                 RankManager.Instance.AddScore(10); // 강민재 : 추가함
+                AddedGs = 10;
             }
 
         }
@@ -86,6 +90,7 @@ public class ResGm : MonoBehaviour
             resultText.text = "무승부";
             // 여기에 점수 +2점
             RankManager.Instance.AddScore(2); // 강민재 : 추가함
+            AddedGs = 2;
         }
         else if (resme < resenemy)
         {
@@ -99,6 +104,7 @@ public class ResGm : MonoBehaviour
                 // 여기에 점수 빼는거 넣으면 됨
                 // 점수는 -(10+stack)
                 RankManager.Instance.AddScore(-(10 + stack)); // 강민재 : 추가함
+                AddedGs = -(10 + stack);
             }
             else
             {
@@ -106,10 +112,27 @@ public class ResGm : MonoBehaviour
                 // 여기에 점수 빼는거 넣으면 됨
                 // 점수는 -10
                 RankManager.Instance.AddScore(-10); // 강민재 : 추가함
+                AddedGs = -10;
             }
         }
         resultPannel.SetActive(true);
-        yield return new WaitForSeconds(3f);
+        int userScore = RankManager.Instance.UserScore;
+        gsText.text = userScore.ToString();
+        yield return new WaitForSeconds(0.9f);
+        for (int i = 0; i < math.abs(AddedGs); i++)
+        {
+            if (AddedGs < 0)
+            {
+                userScore = userScore != 0 ? userScore-- : 0;
+            }
+            else
+            {
+                userScore++;
+            }
+            gsText.text = $"{userScore} ({AddedGs})";
+            yield return new WaitForSeconds(0.05f);
+        }
+        yield return new WaitForSeconds(2f);
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene("Main");
     }
