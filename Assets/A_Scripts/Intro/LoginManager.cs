@@ -98,6 +98,8 @@ public class Login_ : MonoBehaviour
             {
                 Debug.Log("계정 생성됨.");
                 currentState.text = "계정이 생성되었습니다. [" + username + "]";
+                PlayerPrefs.SetInt("UserRank", 0);
+                PlayerPrefs.SetInt("UserScore", 0);
                 StartScore();
             }, OnFailure);
         }
