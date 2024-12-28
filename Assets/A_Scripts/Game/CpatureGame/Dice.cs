@@ -23,18 +23,11 @@ public class Dice : MonoBehaviourPun
     }
     public void ShowG()
     {
-        if (PhotonNetwork.IsMasterClient)
-        {
-            PV.RPC("ShowGround", RpcTarget.All, gm.curGamename == "[ 행운 ]");
-        }
-    }
-    [PunRPC]
-    void ShowGround(bool isLuck)
-    {
-        transform.GetChild(0).gameObject.SetActive(isLuck);
+        transform.GetChild(0).gameObject.SetActive(gm.curGamename == "[ 행운 ]");
     }
     public void GameStart(int difficulty, string playername)
     {
+        ShowG();
         if (difficulty == 4 || difficulty == 0)
         {
             return;
@@ -55,6 +48,7 @@ public class Dice : MonoBehaviourPun
     [PunRPC]
     void Starting(string name, int dif)
     {
+        ShowG();
         gmaeEndObj.SetActive(false);
         howtoText.gameObject.SetActive(false);
         playernameText.text = $"게임 진행중 : {name}";

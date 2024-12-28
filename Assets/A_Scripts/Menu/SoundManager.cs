@@ -16,6 +16,14 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
+        if (PlayerPrefs.HasKey("BGMVOL"))
+        {
+            bgmVolume = PlayerPrefs.GetFloat("BGMVOL");
+        }
+        if (PlayerPrefs.HasKey("SFXVOL"))
+        {
+            sfxVolume = PlayerPrefs.GetFloat("SFXVOL");
+        }
         if (Instance == null)
         {
             Instance = this;
@@ -54,10 +62,12 @@ public class SoundManager : MonoBehaviour
 
     public void ChangeBGM_Vol(Slider slider)
     {
+        PlayerPrefs.SetFloat("BGMVOL", slider.value);
         bgmVolume = slider.value;
     }
     public void ChangeSFX_Vol(Slider slider)
     {
+        PlayerPrefs.SetFloat("SFXVOL", slider.value);
         sfxVolume = slider.value;
     }
 }
