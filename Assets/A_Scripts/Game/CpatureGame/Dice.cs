@@ -21,12 +21,13 @@ public class Dice : MonoBehaviourPun
     {
         PV = photonView;
     }
-    private void Update()
+    public void ShowG()
     {
         transform.GetChild(0).gameObject.SetActive(gm.curGamename == "[ 행운 ]");
     }
     public void GameStart(int difficulty, string playername)
     {
+        ShowG();
         if (difficulty == 4 || difficulty == 0)
         {
             return;
@@ -47,6 +48,7 @@ public class Dice : MonoBehaviourPun
     [PunRPC]
     void Starting(string name, int dif)
     {
+        ShowG();
         gmaeEndObj.SetActive(false);
         howtoText.gameObject.SetActive(false);
         playernameText.text = $"게임 진행중 : {name}";

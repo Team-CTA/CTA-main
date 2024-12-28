@@ -282,8 +282,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         CheckInfoPnl.SetActive(true);
         enNameInfo.text = eneScript.gameObject.GetPhotonView().Owner.NickName;
-        enRankInfo.text = $"Rank #{RankManager.Instance.UserRank}";
+
+
+
+        enRankInfo.text = $"Rank #{RankManager.Instance.UserRank}"; // 여녀ㅑ로ㅑㅁ롬7료8ㅁ됴 여깅요 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         enWinRateInfo.text = $"WinRate #{StatManager.Instance.GetWinRate()}";
+
+
+
         yield return new WaitForSeconds(5f);
         if (PhotonNetwork.IsMasterClient)
         {
@@ -1206,6 +1212,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     void MiniGameStart(string gamename)
     {
+        diceGame.ShowG();
         playCapureGameObj.SetActive(true);
         playCapureGameScreenObj.SetActive(true);
         PV.RPC("GameObj", RpcTarget.Others);

@@ -244,7 +244,6 @@ public class InGameUiController : MonoBehaviourPun
 
     public void CheckInfoSet()
     {
-        CheckInfoAni.gameObject.SetActive(true);
         CheckInfoAni.SetTrigger("go");
         StartCoroutine(EnemyPlayerName());
         // 랭크 넣기
