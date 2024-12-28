@@ -133,14 +133,27 @@ public class Gear : MonoBehaviourPun
             }
         }
     }
+    [PunRPC]
+    void UpdateObjectPosition(Vector3 dragPos, Vector3 goalPos)
+    {
+        dragObj.transform.localPosition = dragPos;
+        goalObj.transform.localPosition = goalPos;
+    }
     void DropObjects()
     {
         int randX = Random.Range(-625, 625);
-        int randy = Random.Range(-280, 280);
-        goalObj.transform.localPosition = new Vector3(randX, randy);
+        int randY = Random.Range(-280, 280);
+        Vector3 newGoalPos = new Vector3(randX, randY);
+
         randX = Random.Range(-625, 625);
-        randy = Random.Range(-280, 280);
-        dragObj.transform.localPosition = new Vector3(randX, randy);
+        randY = Random.Range(-280, 280);
+        Vector3 newDragPos = new Vector3(randX, randY);
+
+        goalObj.transform.localPosition = newGoalPos;
+        dragObj.transform.localPosition = newDragPos;
+
+        // 동기화 RPC 호출
+        PV.RPC("UpdateObjectPosition", RpcTarget.Others, newDragPos, newGoalPos);
     }
     [PunRPC]
     void Dragged_(int remain)

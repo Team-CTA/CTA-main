@@ -880,6 +880,7 @@ public class InGameUiController : MonoBehaviourPun
     }
     public void NanidoSelEnd()
     {
+        if (!gm.myScript.myturn) return;
         photonView.RPC("NanidoSelEndEnemy", RpcTarget.Others, selNanidoText.text);
         nanidoPnlAni.SetTrigger("back");
         nanidoObj.SetActive(false);

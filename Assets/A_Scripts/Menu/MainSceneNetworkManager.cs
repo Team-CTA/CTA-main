@@ -161,6 +161,11 @@ public class MainSceneNetworkManager : MonoBehaviourPunCallbacks
             );
         }
     }
+    public override void OnConnectedToMaster()
+    {
+        Debug.Log($"[+] 마스터 서버 접속 ({PhotonNetwork.CloudRegion})");
+        if (!PhotonNetwork.InLobby) PhotonNetwork.JoinLobby();
+    }
     RoomOptions GetRoomOptions(string type)
     {
         RoomOptions ro = new RoomOptions();
@@ -203,11 +208,7 @@ public class MainSceneNetworkManager : MonoBehaviourPunCallbacks
 
 
     #region Photon Callbacks
-    public override void OnConnectedToMaster()
-    {
-        Debug.Log("[+] 마스터 서버 접속");
-        if (!PhotonNetwork.InLobby) PhotonNetwork.JoinLobby();
-    }
+
     public override void OnJoinedLobby()
     {
         Debug.Log("[+] 로비 접속");
@@ -222,7 +223,9 @@ public class MainSceneNetworkManager : MonoBehaviourPunCallbacks
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
-        Debug.Log($"[!] 방 접속 실패 ({returnCode} : {message})");
+        Debug.LogError($"[!] 방 접속 실패 ({returnCode} : {message})");
+        // 재시도
+        RoomMatching(sceneManager.start_selectedgame);
     }
     public override void OnCreatedRoom()
     {

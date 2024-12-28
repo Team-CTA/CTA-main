@@ -95,6 +95,7 @@ public class Dice : MonoBehaviourPun
         playScreenObj.SetActive(false);
         gm.MiniGameEnd_capture(myNum >= over);
         rollAble = false;
+        ShowG();
     }
     IEnumerator GameEnd_()
     {
