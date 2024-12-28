@@ -880,6 +880,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 2d545faa0672844d89c409f25c1f8271, type: 3}
   - {fileID: 8300000, guid: d6f216fb0bc0c4f9a8d431b96287b759, type: 3}
   - {fileID: 8300000, guid: eadbab3083ced4a0a9812846e84c9759, type: 3}
+  sliders:
+  - {fileID: 767362299}
+  - {fileID: 227443856}
   sel: {fileID: 2118014684}
 --- !u!82 &188974879
 AudioSource:
@@ -1695,9 +1698,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1738133927}
-        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: ChangeSFX_Vol
+      - m_Target: {fileID: 188974878}
+        m_TargetAssemblyTypeName: SelectPannelControl, Assembly-CSharp
+        m_MethodName: ChangeVolSFX
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 227443856}
@@ -3356,6 +3359,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 188974878}
+        m_TargetAssemblyTypeName: SelectPannelControl, Assembly-CSharp
+        m_MethodName: PlaySfx
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 2d545faa0672844d89c409f25c1f8271, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &625143750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3908,9 +3923,9 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1738133927}
-        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: ChangeBGM_Vol
+      - m_Target: {fileID: 188974878}
+        m_TargetAssemblyTypeName: SelectPannelControl, Assembly-CSharp
+        m_MethodName: ChangeVolBGM
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 767362299}
@@ -4371,6 +4386,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 188974878}
+        m_TargetAssemblyTypeName: SelectPannelControl, Assembly-CSharp
+        m_MethodName: PlaySfx
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: 2d545faa0672844d89c409f25c1f8271, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9845,6 +9872,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 188974878}
+        m_TargetAssemblyTypeName: SelectPannelControl, Assembly-CSharp
+        m_MethodName: PlaySfx
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 8300000, guid: c8b44b04073d74c18948ebfb9122c74b, type: 3}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

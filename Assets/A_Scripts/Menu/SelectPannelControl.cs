@@ -14,6 +14,7 @@ public class SelectPannelControl : MonoBehaviour
     public Animator ui_center;
     public Button[] ui_Pannel;
     public AudioClip[] sounds;
+    [SerializeField] Slider[] sliders;
     public Text sel;
     bool CanChange = true, hexEnabled = false, CanClick = true;
     int curHexBtn;
@@ -21,6 +22,18 @@ public class SelectPannelControl : MonoBehaviour
     void Start()
     {
         SetFunc();
+    }
+    public void ChangeVolBGM(Slider slider)
+    {
+        soundManager.ChangeBGM_Vol(slider);
+    }
+    public void ChangeVolSFX(Slider slider)
+    {
+        soundManager.ChangeSFX_Vol(slider);
+    }
+    public void PlaySfx(AudioClip clip)
+    {
+        soundManager.PlaySFX(clip);
     }
     void HexEnable(bool isOpen, int dir)
     {
@@ -62,6 +75,7 @@ public class SelectPannelControl : MonoBehaviour
 
         ui_Pannel[1].onClick.AddListener(() =>
         {
+            soundManager.PlaySFX(sounds[1]);
             StartCoroutine(OpenScene("Ranking"));
         }); // ranking
 
@@ -73,6 +87,7 @@ public class SelectPannelControl : MonoBehaviour
 
         ui_Pannel[3].onClick.AddListener(() =>
         {
+            soundManager.PlaySFX(sounds[1]);
             optins.SetActive(true);
         }); // Options
 
@@ -83,6 +98,7 @@ public class SelectPannelControl : MonoBehaviour
 
         ui_Pannel[5].onClick.AddListener(() =>
         {
+            soundManager.PlaySFX(sounds[1]);
             Application.OpenURL("https://ctagame.site");
         });//Web
 
@@ -115,6 +131,9 @@ public class SelectPannelControl : MonoBehaviour
         if (soundManager == null)
         {
             soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
+            sliders[0].value = soundManager.bgmVolume;
+            sliders[1].value = soundManager.sfxVolume;
+
         }
         else
         {
@@ -220,6 +239,6 @@ public class SelectPannelControl : MonoBehaviour
         PlayerPrefs.DeleteKey("USERNAME");
         PlayerPrefs.DeleteKey("PASSWORD");
         Debug.Log("로그아웃!");
-        OpenScene("Login");
+        StartCoroutine(OpenScene("Login"));
     }
 }

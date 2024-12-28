@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
@@ -30,6 +31,10 @@ public class SoundManager : MonoBehaviour
     {
         bgmSource.volume = bgmVolume;
         sfxSource.volume = sfxVolume;
+        if (SceneManager.GetActiveScene().name == "Login")
+        {
+            bgmSource.Stop();
+        }
     }
 
     /// <param name="clip">재생할 BGM AudioClip</param>
