@@ -36,8 +36,8 @@ public class RankManager : MonoBehaviour
         GetLeaderboard();
     }
 
-    public int UserRank => userRank;
-    public int UserScore => userScore;
+    public int Userrank => userRank;
+    public int Userscore => userScore;
 
     public void GetLeaderboard()
     {
@@ -123,6 +123,9 @@ public class RankManager : MonoBehaviour
             {
                 userRank = item.Position + 1;
                 userScore = item.StatValue;
+                Debug.Log("rank 로컬 DB 세팅!");
+                PlayerPrefs.SetInt("UserRank", userRank);
+                PlayerPrefs.SetInt("UserScore", userScore);
 
                 myName.text = PlayerPrefs.GetString("USERNAME");
                 myRank.text = GetRankSuffix(userRank);

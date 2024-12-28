@@ -119,7 +119,7 @@ public class ResGm : MonoBehaviour
             }
         }
         resultPannel.SetActive(true);
-        int userScore = RankManager.Instance.UserScore;
+        int userScore = RankManager.Instance.Userscore;
         gsText.text = userScore.ToString();
         yield return new WaitForSeconds(0.9f);
         for (int i = 0; i < math.abs(AddedGs); i++)
