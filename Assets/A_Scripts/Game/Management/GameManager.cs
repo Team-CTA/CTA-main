@@ -450,7 +450,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     private void OnApplicationQuit()
     {
-
+        RankManager.Instance.AddScore(-20);
     }
     #endregion
     #region Creating Map
