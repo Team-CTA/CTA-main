@@ -450,6 +450,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     private void OnApplicationQuit()
     {
+        StatManager.Instance.LossesScore();
         RankManager.Instance.AddScore(-20);
     }
     #endregion
