@@ -3418,7 +3418,9 @@ MonoBehaviour:
   - {fileID: 1437530769}
   - {fileID: 1014402388}
   leftButton: {fileID: 1981263619}
+  L_leftButton: {fileID: 1981263616}
   rightButton: {fileID: 594442172}
+  R_rightButton: {fileID: 594442169}
 --- !u!1 &496124130
 GameObject:
   m_ObjectHideFlags: 0
@@ -7907,7 +7909,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1824553991}
   m_HandleRect: {fileID: 1824553990}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
