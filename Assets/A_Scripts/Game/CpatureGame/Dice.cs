@@ -32,6 +32,11 @@ public class Dice : MonoBehaviourPun
     {
         transform.GetChild(0).gameObject.SetActive(isActive);
     }
+    [PunRPC]
+    void SyncShowG_()
+    {
+        transform.GetChild(0).gameObject.SetActive(false);
+    }
     public void GameStart(int difficulty, string playername)
     {
         ShowG();
@@ -101,7 +106,7 @@ public class Dice : MonoBehaviourPun
         playScreenObj.SetActive(false);
         gm.MiniGameEnd_capture(myNum >= over);
         rollAble = false;
-        ShowG();
+        PV.RPC("SyncShowG_", RpcTarget.All);
     }
     IEnumerator GameEnd_()
     {

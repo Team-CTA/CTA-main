@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     string[] randomCardKeys = {
         "데드록","오버라이드",
         "체인 캡쳐링","동기화","리모트 캡쳐링",
-        "부스트","안전망","최적화",
+        "부스트","최적화",
     };
     public List<Card> cardEntriesI = new List<Card>();
     public List<Card> cardEntriesEnemy = new List<Card>();
@@ -880,7 +880,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         string[] rndCards = new string[]{
             randomCardKeys[Random.Range(0, 2)],
             randomCardKeys[Random.Range(2, 5)],
-            randomCardKeys[Random.Range(5, 8)]
+            randomCardKeys[Random.Range(5, 7)]
         };
         uiController.Draw(rndCards, drawRemains);
         drawRemains--;

@@ -135,7 +135,14 @@ public class ResGm : MonoBehaviour
         {
             if (AddedGs < 0)
             {
-                userScore = userScore != 0 ? userScore-- : 0;
+                if (userScore > 0)
+                {
+                    userScore--;
+                }
+                else
+                {
+                    userScore = 0;
+                }
             }
             else
             {
