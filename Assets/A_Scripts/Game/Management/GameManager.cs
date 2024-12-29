@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 using Photon.Pun;
+using PlayFab;
+using PlayFab.ClientModels;
 using UnityEngine.UI;
 using Debug = UnityEngine.Debug;
 using Photon.Realtime;
@@ -43,6 +45,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public bool selectable = false;
     public bool infoOpenable = false;
     public bool gameInProgress = false;
+
+    string otherUserRank;
+    string otherUserName;
+
     public int draw = 5;
     int drawRemains;
     public int nanido;
@@ -152,7 +158,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.Log("인게임 : " + PhotonNetwork.CurrentRoom.Name);
             for (int i = 1; i <= PhotonNetwork.CurrentRoom.PlayerCount; i++)
+            {
                 Debug.Log($"인게임 플레이어 {i} > {PhotonNetwork.CurrentRoom.Players[i].NickName}");
+                if (PhotonNetwork.CurrentRoom.Players[i].NickName != nickName)
+                {
+                    otherUserName = PhotonNetwork.CurrentRoom.Players[i].NickName;
+                    GetOtherUserData(otherUserName);
+                }
+            }
+
 
             MyObj = PhotonNetwork.Instantiate("player", Vector3.zero, Quaternion.identity); // 스트링인 프리펩 이름임! 대소문자 구별 안함
             // FindPlayerScript();
@@ -280,13 +294,12 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.Log("re>");
         }
         CheckInfoPnl.SetActive(true);
-        enNameInfo.text = eneScript.gameObject.GetPhotonView().Owner.NickName;
-
+        enNameInfo.text = otherUserName;
 
 
         // 여녀ㅑ로ㅑㅁ롬7료8ㅁ됴 여깅요 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-        enRankInfo.text = $"Rank #{PlayerPrefs.GetInt("UserRank")}";
+        enRankInfo.text = $"Rank #{otherUserRank}";
 
         Debug.Log(PlayerPrefs.GetInt("UserRank")); //강민재 : 유저 랭크 가져오는 법
         Debug.Log(PlayerPrefs.GetInt("UserScore")); //강민재 : 유저 스코어 가져오는 법
@@ -307,6 +320,37 @@ public class GameManager : MonoBehaviourPunCallbacks
             PV.RPC("FirTurnSel", RpcTarget.MasterClient, Random.Range(0, 2));
             Debug.Log("isMaster>");
         }
+    }
+    private void GetOtherUserData(string username)
+    {
+        var request = new GetUserDataRequest()
+        {
+            PlayFabId = username
+        };
+
+        PlayFabClientAPI.GetUserData(request, OnUserDataReceived, OnError);
+    }
+
+    private void OnUserDataReceived(GetUserDataResult result)
+    {
+        if (result.Data != null)
+        {
+            if (result.Data.ContainsKey("UserRank-Data"))
+            {
+                int rank = int.Parse(result.Data["UserRank-Data"].Value);
+                otherUserRank = rank.ToString();  // 강민재 : 다른 유저의 랭크를 otherUserRank 에 String으로 담음
+                Debug.Log("Other User Rank : " + otherUserRank);
+            }
+            else
+            {
+                Debug.LogWarning("not found : " + otherUserName);
+            }
+        }
+    }
+
+    private void OnError(PlayFabError error)
+    {
+        Debug.LogError("에러 : " + error.GenerateErrorReport());
     }
     [PunRPC]
     void FirTurnSel(int rnd)
@@ -342,6 +386,10 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         // 여기 나갔을때 패배처리하는거 넣기
+    }
+    private void OnApplicationQuit()
+    {
+
     }
     #endregion
     #region Creating Map
