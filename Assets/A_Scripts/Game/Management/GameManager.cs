@@ -245,31 +245,10 @@ public class GameManager : MonoBehaviourPunCallbacks
             soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
             soundManager.PlayBGM(sounds[0]);
         }
-        if (Input.GetKey(KeyCode.RightShift) && Input.GetKey(KeyCode.R))
-        {
-            Red = true; //밑에 지우기
-        }
-        else
-        {
-            Red = false;
-        }
-        if (Input.GetKey(KeyCode.RightShift) && Input.GetKey(KeyCode.B))
-        {
-            Blue = true;
-        }
-        else
-        {
-            Blue = false;
-        }
-        if (Input.GetKey(KeyCode.RightShift) && Input.GetKey(KeyCode.W) && Input.GetKey(KeyCode.E) || Check_Jum() && GameProgress)
+        if (Check_Jum() && GameProgress)
         {
             Debug.Log("끝체크!!!!!!!!");
             EndGame();
-        }
-        if (Input.GetKey(KeyCode.RightShift) && Input.GetKey(KeyCode.Q))
-        {
-            PhotonNetwork.LeaveRoom();
-            SceneManager.LoadScene("Main");
         }
         try
         {

@@ -38,10 +38,6 @@ public class MainSceneNetworkManager : MonoBehaviourPunCallbacks
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F)) // <+=========ㅇ내ㅜㄹ얀뮤럄냥ㄹ 테스트용 지워야함 나중에
-        {
-            SceneManager.LoadScene("inGame");
-        }
 
 
         if (start_onMatching && !start_MATCHFOUND)
