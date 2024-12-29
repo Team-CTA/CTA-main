@@ -23,7 +23,14 @@ public class Dice : MonoBehaviourPun
     }
     public void ShowG()
     {
-        transform.GetChild(0).gameObject.SetActive(gm.curGamename == "[ 행운 ]");
+        bool isActive = (gm.curGamename == "[ 행운 ]");
+        PV.RPC("SyncShowG", RpcTarget.All, isActive);
+    }
+
+    [PunRPC]
+    void SyncShowG(bool isActive)
+    {
+        transform.GetChild(0).gameObject.SetActive(isActive);
     }
     public void GameStart(int difficulty, string playername)
     {
@@ -48,7 +55,6 @@ public class Dice : MonoBehaviourPun
     [PunRPC]
     void Starting(string name, int dif)
     {
-        ShowG();
         gmaeEndObj.SetActive(false);
         howtoText.gameObject.SetActive(false);
         playernameText.text = $"게임 진행중 : {name}";

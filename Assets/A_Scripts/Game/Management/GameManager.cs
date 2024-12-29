@@ -1346,7 +1346,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     void MiniGameStart(string gamename)
     {
-        diceGame.ShowG();
         playCapureGameObj.SetActive(true);
         playCapureGameScreenObj.SetActive(true);
         PV.RPC("GameObj", RpcTarget.Others);
