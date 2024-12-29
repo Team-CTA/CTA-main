@@ -84,10 +84,13 @@ public class StatManager : MonoBehaviour
                 user_Draws = stat.Value;
             }
         }
+        UpdateUserStat();
         Debug.Log("GetUserWins : " + GetUserWins());
         Debug.Log("GetUserLosses : " + GetUserLosses());
         Debug.Log("GetUserDraws : " + GetUserDraws());
         Debug.Log("GetUserWinRate : " + GetUserWinRate());
+
+        Debug.Log("WINRATE : " + CalculateWinRate(user_wins, user_losses));
     }
 
     public void WinScore()
@@ -117,6 +120,7 @@ public class StatManager : MonoBehaviour
 
     private void UpdateUserStat()
     {
+        PlayerPrefs.SetInt("WINRATE", CalculateWinRate(user_wins, user_losses));
         var request = new UpdatePlayerStatisticsRequest()
         {
             Statistics = new List<StatisticUpdate>
