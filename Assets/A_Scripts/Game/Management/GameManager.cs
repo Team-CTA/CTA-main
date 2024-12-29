@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameObject CheckInfoPnl;
     [SerializeField] Text enNameInfo;
     [SerializeField] Text enRankInfo;
-    [SerializeField] Text enWinRateInfo;
     [SerializeField] Text fuck;
 
     [Header("타일 생성 설정")]
@@ -287,8 +286,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
         // 여녀ㅑ로ㅑㅁ롬7료8ㅁ됴 여깅요 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-
-        enWinRateInfo.text = $"WinRate #{StatManager.Instance.GetUserWinRate()}";
         enRankInfo.text = $"Rank #{PlayerPrefs.GetInt("UserRank")}";
 
         Debug.Log(PlayerPrefs.GetInt("UserRank")); //강민재 : 유저 랭크 가져오는 법
@@ -1421,6 +1418,19 @@ public class GameManager : MonoBehaviourPunCallbacks
         List<Card> executedCards = new List<Card>();
         if (refCardCheck.a_deadlock)
         {
+            if (refCardCheck.a_easier)
+                if (myScript.myturn) RemoveUsedCard("최적화");
+            if (refCardCheck.a_boost)
+                if (myScript.myturn) RemoveUsedCard("부스트");
+            if (refCardCheck.a_safetyWeb)
+                if (myScript.myturn) RemoveUsedCard("안전망");
+            if (refCardCheck.a_chainCapture)
+                if (myScript.myturn) RemoveUsedCard("체인 캡쳐링");
+            if (refCardCheck.a_synchronization == 2)
+                if (myScript.myturn) RemoveUsedCard("동기화");
+            if (refCardCheck.a_remoteCapture)
+                if (myScript.myturn) RemoveUsedCard("리모트 캡쳐링");
+
             refCardCheck.a_boost = false;
             refCardCheck.a_chainCapture = false;
             refCardCheck.a_easier = false;
