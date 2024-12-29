@@ -28,6 +28,7 @@ public class StatManager : MonoBehaviour
 
     private void Start()
     {
+        PlayerPrefs.SetInt("WINRATE", 0);
         Login();
     }
 
@@ -121,6 +122,7 @@ public class StatManager : MonoBehaviour
     private void UpdateUserStat()
     {
         PlayerPrefs.SetInt("WINRATE", CalculateWinRate(user_wins, user_losses));
+        PlayerPrefs.Save();
         var request = new UpdatePlayerStatisticsRequest()
         {
             Statistics = new List<StatisticUpdate>
