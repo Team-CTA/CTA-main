@@ -11,8 +11,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource sfxSource;
 
     [Header("Volume Settings")]
-    [Range(0f, 1f)] public float bgmVolume = 1f;
-    [Range(0f, 1f)] public float sfxVolume = 1f;
+    [Range(0f, 1f)] public float bgmVolume = 0.7f;
+    [Range(0f, 1f)] public float sfxVolume = 0.7f;
 
     private void Awake()
     {
@@ -20,9 +20,17 @@ public class SoundManager : MonoBehaviour
         {
             bgmVolume = PlayerPrefs.GetFloat("BGMVOL");
         }
+        else
+        {
+            bgmVolume = 0.7f;
+        }
         if (PlayerPrefs.HasKey("SFXVOL"))
         {
             sfxVolume = PlayerPrefs.GetFloat("SFXVOL");
+        }
+        else
+        {
+            sfxVolume = 0.7f;
         }
         if (Instance == null)
         {
