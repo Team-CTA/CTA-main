@@ -107,7 +107,7 @@ public class RankManager : MonoBehaviour
             SetRankingColor(rankingText, item.Position);
 
             usernameText.text = item.DisplayName;
-            trophyText.text = item.StatValue.ToString() + " GS";
+            trophyText.text = item.StatValue.ToString();
 
             Sprite countrySprite = Resources.Load<Sprite>("CountryImages/" + countryCode);
             if (countrySprite != null)
