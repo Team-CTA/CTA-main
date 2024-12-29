@@ -126,6 +126,7 @@ public class RankManager : MonoBehaviour
                 Debug.Log("rank 로컬 DB 세팅!");
                 PlayerPrefs.SetInt("UserRank", userRank);
                 PlayerPrefs.SetInt("UserScore", userScore);
+                SaveUserDataToPlayFab(userRank, userScore);
 
                 myName.text = PlayerPrefs.GetString("USERNAME");
                 myRank.text = GetRankSuffix(userRank);
@@ -133,6 +134,25 @@ public class RankManager : MonoBehaviour
             }
         }
     }
+    private void SaveUserDataToPlayFab(int rank, int score)
+    {
+        var request = new UpdateUserDataRequest()
+        {
+            Data = new Dictionary<string, string>
+        {
+            { "UserRank-Data", rank.ToString() },
+            { "UserScore-Data", score.ToString() }
+        }
+        };
+
+        PlayFabClientAPI.UpdateUserData(request, OnUserDataUpdated, OnError);
+    }
+    private void OnUserDataUpdated(UpdateUserDataResult result)
+    {
+        Debug.Log("랭크 데이터 저장!");
+    }
+
+
 
     private string GetRankSuffix(int rank)
     {
