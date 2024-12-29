@@ -348,6 +348,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     // }
     private void GetPlayFabIdFromUserName(string username)
     {
+        Debug.Log(username);
         var request = new GetAccountInfoRequest()
         {
             Username = username
