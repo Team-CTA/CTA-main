@@ -163,6 +163,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                 if (PhotonNetwork.CurrentRoom.Players[i].NickName != nickName)
                 {
                     otherUserName = PhotonNetwork.CurrentRoom.Players[i].NickName;
+                    Debug.Log(otherUserName);
                     GetOtherUserData(otherUserName);
                 }
             }
