@@ -29,6 +29,22 @@ public class SelectPannelControl : MonoBehaviour
             PlayerPrefs.SetInt("First", 1);
             TutoOpen();
         }
+        if (PlayerPrefs.HasKey("BGMVOL"))
+        {
+            sliders[0].value = PlayerPrefs.GetFloat("BGMVOL");
+        }
+        else
+        {
+            sliders[0].value = 0.7f;
+        }
+        if (PlayerPrefs.HasKey("SFXVOL"))
+        {
+            sliders[1].value = PlayerPrefs.GetFloat("SFXVOL");
+        }
+        else
+        {
+            sliders[1].value = 0.7f;
+        }
     }
     public void ChangeVolBGM(Slider slider)
     {
@@ -148,12 +164,12 @@ public class SelectPannelControl : MonoBehaviour
             soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
             sliders[0].value = soundManager.bgmVolume;
             sliders[1].value = soundManager.sfxVolume;
-
         }
         else
         {
 
             soundManager.PlayBGM(sounds[2]);
+
         }
     }
     void HexControl()
