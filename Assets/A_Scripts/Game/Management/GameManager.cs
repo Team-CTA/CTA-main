@@ -449,6 +449,9 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         // 여기 나갔을때 패배처리하는거 넣기
+        PlayerPrefs.SetInt("ENEXIT", 1);
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene("EndGame");
     }
     private void OnApplicationQuit()
     {

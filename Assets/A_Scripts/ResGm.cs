@@ -23,7 +23,15 @@ public class ResGm : MonoBehaviour
         eneScore = PlayerPrefs.GetInt("EnemyScore");
         myGroundScore = PlayerPrefs.GetInt("MyScoreG");
         eneGroundScore = PlayerPrefs.GetInt("EnemyScoreG");
-        StartCoroutine(setText());
+        if (PlayerPrefs.HasKey("ENEXIT"))
+        {
+            PlayerPrefs.DeleteKey("ENEXIT");
+            StartCoroutine(setText_win());
+        }
+        else
+        {
+            StartCoroutine(setText());
+        }
     }
     IEnumerator setText()
     {
@@ -118,6 +126,53 @@ public class ResGm : MonoBehaviour
                 AddedGs = -10;
             }
         }
+        resultPannel.SetActive(true);
+        int userScore = RankManager.Instance.Userscore;
+        gsText.text = userScore.ToString();
+        yield return new WaitForSeconds(0.9f);
+        for (int i = 0; i < math.abs(AddedGs); i++)
+        {
+            if (AddedGs < 0)
+            {
+                userScore = userScore != 0 ? userScore-- : 0;
+            }
+            else
+            {
+                userScore++;
+            }
+            gsText.text = $"{userScore} ({AddedGs})";
+            yield return new WaitForSeconds(0.05f);
+        }
+        yield return new WaitForSeconds(2f);
+        PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene("Main");
+    }
+    IEnumerator setText_win()
+    {
+        resultText.text = "승리";
+        PlayerPrefs.DeleteKey("LOOSESTACK");
+        StatManager.Instance.WinScore();
+
+        if (PlayerPrefs.HasKey("WINSTACK"))
+        {
+            int stack = PlayerPrefs.GetInt("WINSTACK");
+            if (stack < 10) stack++;
+            PlayerPrefs.SetInt("WINSTACK", stack);
+            // 여기에 점수 추가하는거 넣으면 됨
+            // 점수는 10+stack
+            RankManager.Instance.AddScore(10 + stack); // 강민재 : 추가함
+            AddedGs = 10 + stack;
+        }
+        else
+        {
+            PlayerPrefs.SetInt("WINSTACK", 1);
+            // 여기에 점수 추가하는거 넣으면 됨
+            // 점수는 10
+            RankManager.Instance.AddScore(10); // 강민재 : 추가함
+            AddedGs = 10;
+        }
+
+
         resultPannel.SetActive(true);
         int userScore = RankManager.Instance.Userscore;
         gsText.text = userScore.ToString();
