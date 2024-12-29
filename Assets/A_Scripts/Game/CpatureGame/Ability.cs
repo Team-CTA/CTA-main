@@ -77,7 +77,7 @@ public class Ability : MonoBehaviourPun
         playernameText.text = $"게임 진행중 : {playername}";
         curArrayIndex = 0;
         keyArray = new List<string>();
-        for (int i = 0; i < difficulty * 10; i++)
+        for (int i = 0; i < difficulty * 12; i++)
         {
             int rnd = Random.Range(0, keys.Count);
             keyArray.Add(keys[rnd].ToString());

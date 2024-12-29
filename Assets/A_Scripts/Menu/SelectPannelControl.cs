@@ -128,6 +128,11 @@ public class SelectPannelControl : MonoBehaviour
                 ui_Pannel[i].interactable = true;
             }
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            soundManager.PlaySFX(sounds[0]);
+            optins.SetActive(!optins.activeSelf);
+        }
         if (soundManager == null)
         {
             soundManager = GameObject.Find("SoundManager").GetComponent<SoundManager>();
@@ -240,5 +245,15 @@ public class SelectPannelControl : MonoBehaviour
         PlayerPrefs.DeleteKey("PASSWORD");
         Debug.Log("로그아웃!");
         StartCoroutine(OpenScene("Login"));
+    }
+    public void Exit()
+    {
+        // 에디터에서 실행 중일 때
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        // 빌드된 게임에서 실행 중일 때
+        Application.Quit();
+#endif
     }
 }
