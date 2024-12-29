@@ -86,13 +86,11 @@ public class Test : MonoBehaviour
 
 // public class OtherUserRankDisplay : MonoBehaviour
 // {
-//     public Text otherUserNameText; // 강민재 : 출력용
-//     public Text otherUserRankText; // 강민재 : 출력용
-//     public Text otherUserScoreText; // 강민재 : 출력용
 
 //     public string targetUserName; // 강민재 : 다른 유저이름 입력용
+//     string otherUserRank;
 
-//     private void Start()
+//     public void GetOtherUser()
 //     {
 //         GetOtherUserData(targetUserName);
 //     }
@@ -111,36 +109,22 @@ public class Test : MonoBehaviour
 //     {
 //         if (result.Data != null)
 //         {
-//             if (result.Data.ContainsKey("UserRank-Data") && result.Data.ContainsKey("UserScore-Data"))
+//             if (result.Data.ContainsKey("UserRank-Data"))
 //             {
 //                 int rank = int.Parse(result.Data["UserRank-Data"].Value);
-//                 int score = int.Parse(result.Data["UserScore-Data"].Value);
-
-//                 otherUserNameText.text = "User: " + targetUserName;
-//                 otherUserRankText.text = "Rank: " + GetRankSuffix(rank);
-//                 otherUserScoreText.text = "Score: " + score.ToString();
+//                 otherUserRank = rank.ToString();  // 강민재 : 다른 유저의 랭크를 otherUserRank 에 String으로 담음
+//                 Debug.Log("Other User Rank : " + otherUserRank);
 //             }
 //             else
 //             {
-//                 Debug.LogWarning("UserRank-Data or UserScore-Data not found for " + targetUserName);
+//                 Debug.LogWarning("not found : " + targetUserName);
 //             }
 //         }
 //     }
 
 //     private void OnError(PlayFabError error)
 //     {
-//         Debug.LogError("Error retrieving user data: " + error.GenerateErrorReport());
+//         Debug.LogError("에러 : " + error.GenerateErrorReport());
 //     }
 
-//     private string GetRankSuffix(int rank)
-//     {
-//         if (rank % 10 == 1 && rank != 11)
-//             return rank + "st";
-//         else if (rank % 10 == 2 && rank != 12)
-//             return rank + "nd";
-//         else if (rank % 10 == 3 && rank != 13)
-//             return rank + "rd";
-//         else
-//             return rank + "th";
-//     }
 // }
