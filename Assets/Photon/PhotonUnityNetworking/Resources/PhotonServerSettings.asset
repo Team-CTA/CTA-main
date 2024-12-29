@@ -80,6 +80,7 @@ MonoBehaviour:
   - EndEne
   - ShowGround
   - UpdateObjectPosition
+  - RankShow
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
