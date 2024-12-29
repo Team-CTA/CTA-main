@@ -293,7 +293,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.Log("re>");
         }
         CheckInfoPnl.SetActive(true);
-        enNameInfo.text = otherUserName;
+        enNameInfo.text = eneScript.gameObject.GetPhotonView().Owner.NickName;
         PV.RPC("RankShow", RpcTarget.Others, $"Rank #{PlayerPrefs.GetInt("UserRank")}");
 
         // 여녀ㅑ로ㅑㅁ롬7료8ㅁ됴 여깅요 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
