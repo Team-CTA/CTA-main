@@ -173,7 +173,7 @@ public class GameManager : MonoBehaviourPunCallbacks
                     // 근데 밑에꺼 실행하면
                     // 에러 : Invailed 뭐시기 뜸
                     // onErrer 작동한듯
-                    GetOtherUserData(otherUserName);
+                    GetPlayFabIdFromUserName(otherUserName);
                 }
             }
             // ㅇㅇ녀ㅗㅑㅕㅁ누랴ㅕㅎㅁ댜럄ㄷ르ㅜ묮러ㅕㅐㅑ토ㅕㅌ호!???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
@@ -337,16 +337,64 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
 
     // ㅇㅇ녀ㅗㅑㅕㅁ누랴ㅕㅎㅁ댜럄ㄷ르ㅜ묮러ㅕㅐㅑ토ㅕㅌ호!???????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????????
-    private void GetOtherUserData(string username)
+    // private void GetOtherUserData(string username)
+    // {
+    //     var request = new GetUserDataRequest()
+    //     {
+    //         PlayFabId = username
+    //     };
+
+    //     PlayFabClientAPI.GetUserData(request, OnUserDataReceived, OnError);
+    // }
+    private void GetPlayFabIdFromUserName(string username)
+    {
+        var request = new GetAccountInfoRequest()
+        {
+            Username = username
+        };
+
+        PlayFabClientAPI.GetAccountInfo(request, OnAccountInfoReceived, OnError);
+    }
+
+
+    // private void OnUserDataReceived(GetUserDataResult result)
+    // {
+    //     if (result.Data != null)
+    //     {
+    //         if (result.Data.ContainsKey("UserRank-Data"))
+    //         {
+    //             int rank = int.Parse(result.Data["UserRank-Data"].Value);
+    //             otherUserRank = rank.ToString();  // 강민재 : 다른 유저의 랭크를 otherUserRank 에 String으로 담음
+    //             Debug.Log("Other User Rank : " + otherUserRank);
+    //         }
+    //         else
+    //         {
+    //             Debug.LogWarning("not found : " + otherUserName);
+    //         }
+    //     }
+    // }
+    private void OnAccountInfoReceived(GetAccountInfoResult result)
+    {
+        if (result != null && result.AccountInfo != null)
+        {
+            string playFabId = result.AccountInfo.PlayFabId;
+
+            GetOtherUserData(playFabId);
+        }
+        else
+        {
+            Debug.LogWarning("User not found: " + otherUserName);
+        }
+    }
+    private void GetOtherUserData(string playFabId)
     {
         var request = new GetUserDataRequest()
         {
-            PlayFabId = username
+            PlayFabId = playFabId
         };
 
         PlayFabClientAPI.GetUserData(request, OnUserDataReceived, OnError);
     }
-
     private void OnUserDataReceived(GetUserDataResult result)
     {
         if (result.Data != null)
@@ -354,7 +402,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             if (result.Data.ContainsKey("UserRank-Data"))
             {
                 int rank = int.Parse(result.Data["UserRank-Data"].Value);
-                otherUserRank = rank.ToString();  // 강민재 : 다른 유저의 랭크를 otherUserRank 에 String으로 담음
+                otherUserRank = rank.ToString();
                 Debug.Log("Other User Rank : " + otherUserRank);
             }
             else
@@ -363,6 +411,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
         }
     }
+    //----------------------------
 
     private void OnError(PlayFabError error)
     {
