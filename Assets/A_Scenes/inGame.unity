@@ -17581,7 +17581,7 @@ MonoBehaviour:
   CheckInfoPnl: {fileID: 418506923}
   enNameInfo: {fileID: 2129560418}
   enRankInfo: {fileID: 525927252}
-  enWinRateInfo: {fileID: 0}
+  enWinRateInfo: {fileID: 1373352837}
   fuck: {fileID: 338528580}
   hex0: {fileID: 7395480058063218497, guid: b31ba0e24af5a44839d3588656143cea, type: 3}
   hex1: {fileID: 563842283452027778, guid: 131d94130884148bea3f7f9cd36c4e17, type: 3}
