@@ -1,20 +1,20 @@
-using UnityEngine;
+// using UnityEngine;
 
-public class Test : MonoBehaviour
-{
-    void Start()
-    {
-        //강민재 : 랭크 로드 확인용
-        Debug.Log(PlayerPrefs.GetInt("UserRank"));
-        Debug.Log(PlayerPrefs.GetInt("UserScore"));
-    }
-    void Update()
-    {
-        //Debug.Log("+ rank" + PlayerPrefs.GetInt("UserRank"));
-        //Debug.Log("+ score" + PlayerPrefs.GetInt("UserScore"));
-    }
+// public class Test : MonoBehaviour
+// {
+//     void Start()
+//     {
+//         //강민재 : 랭크 로드 확인용
+//         Debug.Log(PlayerPrefs.GetInt("UserRank"));
+//         Debug.Log(PlayerPrefs.GetInt("UserScore"));
+//     }
+//     void Update()
+//     {
+//         //Debug.Log("+ rank" + PlayerPrefs.GetInt("UserRank"));
+//         //Debug.Log("+ score" + PlayerPrefs.GetInt("UserScore"));
+//     }
 
-}
+// }
 
 // 자신의 랭크 를 PlayFab DB에서 가져오기
 // using PlayFab;
@@ -128,3 +128,75 @@ public class Test : MonoBehaviour
 //     }
 
 // }
+
+using PlayFab;
+using PlayFab.ClientModels;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class OtherUserRankDisplay : MonoBehaviour
+{
+    public string targetUserName;
+    string otherUserRank;
+
+    public void GetOtherUser()
+    {
+        GetPlayFabIdFromUserName(targetUserName);
+    }
+
+    private void GetPlayFabIdFromUserName(string username)
+    {
+        var request = new GetAccountInfoRequest()
+        {
+            Username = username
+        };
+
+        PlayFabClientAPI.GetAccountInfo(request, OnAccountInfoReceived, OnError);
+    }
+
+    private void OnAccountInfoReceived(GetAccountInfoResult result)
+    {
+        if (result != null && result.AccountInfo != null)
+        {
+            string playFabId = result.AccountInfo.PlayFabId;
+
+            GetOtherUserData(playFabId);
+        }
+        else
+        {
+            Debug.LogWarning("User not found: " + targetUserName);
+        }
+    }
+
+    private void GetOtherUserData(string playFabId)
+    {
+        var request = new GetUserDataRequest()
+        {
+            PlayFabId = playFabId
+        };
+
+        PlayFabClientAPI.GetUserData(request, OnUserDataReceived, OnError);
+    }
+
+    private void OnUserDataReceived(GetUserDataResult result)
+    {
+        if (result.Data != null)
+        {
+            if (result.Data.ContainsKey("UserRank-Data"))
+            {
+                int rank = int.Parse(result.Data["UserRank-Data"].Value);
+                otherUserRank = rank.ToString();
+                Debug.Log("Other User Rank : " + otherUserRank);
+            }
+            else
+            {
+                Debug.LogWarning("Rank data not found for user: " + targetUserName);
+            }
+        }
+    }
+
+    private void OnError(PlayFabError error)
+    {
+        Debug.LogError("Error: " + error.GenerateErrorReport());
+    }
+}
