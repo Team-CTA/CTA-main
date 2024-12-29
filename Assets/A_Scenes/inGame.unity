@@ -11312,7 +11312,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1105729427
 Transform:
   m_ObjectHideFlags: 0
@@ -19388,6 +19388,10 @@ PrefabInstance:
     - target: {fileID: 274932552822684377, guid: 9b465dbbc6b9d40ae985cd2b04c29e3e, type: 3}
       propertyPath: m_Name
       value: Dice_object
+      objectReference: {fileID: 0}
+    - target: {fileID: 274932552822684377, guid: 9b465dbbc6b9d40ae985cd2b04c29e3e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1988943759413916293, guid: 9b465dbbc6b9d40ae985cd2b04c29e3e, type: 3}
       propertyPath: Badak

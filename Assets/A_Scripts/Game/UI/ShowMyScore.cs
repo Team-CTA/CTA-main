@@ -4,20 +4,14 @@ using UnityEngine.UI;
 public class ShowMyScore : MonoBehaviour
 {
     public Text MyScore;
-    public Text MyWIN;
-    public Text MyLOSSES;
-    public Text MyDRAW;
     public Text MyPLAY;
     public Text MyWINRATE;
     void Start()
     {
         MyScore.text = PlayerPrefs.GetInt("UserScore").ToString();
 
-        MyWIN.text = StatManager.Instance.GetUserWins().ToString();
-        MyLOSSES.text = StatManager.Instance.GetUserLosses().ToString();
-        MyDRAW.text = StatManager.Instance.GetUserDraws().ToString();
-        MyPLAY.text = StatManager.Instance.GetTotalGames().ToString();
-        MyWINRATE.text = StatManager.Instance.GetUserWinRate().ToString() + "%";
+        MyPLAY.text = $"{StatManager.Instance.GetTotalGames()}전 {StatManager.Instance.GetUserWins()}승 {StatManager.Instance.GetUserLosses()}패 {StatManager.Instance.GetUserDraws()}무";
+        MyWINRATE.text = $"승률 : {StatManager.Instance.GetUserWinRate()}%";
 
 
         Debug.Log(PlayerPrefs.GetInt("UserRank")); //강민재 : 유저 랭크 가져오는 법
