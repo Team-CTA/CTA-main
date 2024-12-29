@@ -271,7 +271,15 @@ public class GameManager : MonoBehaviourPunCallbacks
             PhotonNetwork.LeaveRoom();
             SceneManager.LoadScene("Main");
         }
-        ScoreText.text = $"{eneScript.score} : {myScript.score} (나)";
+        try
+        {
+            ScoreText.text = $"{eneScript.score} : {myScript.score} (나)";
+        }
+        catch (System.Exception)
+        {
+
+            throw;
+        }
     }
     #endregion
     #region PunRPC

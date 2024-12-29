@@ -17,8 +17,10 @@ public class ResGm : MonoBehaviour
     [SerializeField] GameObject resultPannel;
     int myScore, eneScore, myGroundScore, eneGroundScore;
     int AddedGs;
+    int userScore;
     void Start()
     {
+        userScore = RankManager.Instance.Userscore;
         myScore = PlayerPrefs.GetInt("MyScore");
         eneScore = PlayerPrefs.GetInt("EnemyScore");
         myGroundScore = PlayerPrefs.GetInt("MyScoreG");
@@ -127,7 +129,6 @@ public class ResGm : MonoBehaviour
             }
         }
         resultPannel.SetActive(true);
-        int userScore = RankManager.Instance.Userscore;
         gsText.text = userScore.ToString();
         yield return new WaitForSeconds(0.9f);
         for (int i = 0; i < math.abs(AddedGs); i++)
@@ -174,7 +175,6 @@ public class ResGm : MonoBehaviour
 
 
         resultPannel.SetActive(true);
-        int userScore = RankManager.Instance.Userscore;
         gsText.text = userScore.ToString();
         yield return new WaitForSeconds(0.9f);
         for (int i = 0; i < math.abs(AddedGs); i++)
