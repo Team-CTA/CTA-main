@@ -87,8 +87,8 @@ public class Gear : MonoBehaviourPun
         draggable = false;
         playernameText.text = $"게임 진행중 : {playername}";
         if (difficulty == 1) remains = 5;
-        else if (difficulty == 2) remains = 8;
-        else if (difficulty == 3) remains = 11;
+        else if (difficulty == 2) remains = 7;
+        else if (difficulty == 3) remains = 9;
         clearconditionText.text = $"성공까지 {remains}개 남음";
         timerText.text = "5초 후 시작";
         gmaeEndObj.SetActive(false);
