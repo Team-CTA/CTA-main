@@ -9,6 +9,7 @@ public class SelectPannelControl : MonoBehaviour
     public GameObject rollBase, rollUI, logo, optins;
     [SerializeField] SoundManager soundManager = null;
     [SerializeField] TransitionScript transition;
+    [SerializeField] GameObject tutorial;
     public Outline outline;
     public Button exit;
     public Animator ui_center;
@@ -18,10 +19,16 @@ public class SelectPannelControl : MonoBehaviour
     public Text sel;
     bool CanChange = true, hexEnabled = false, CanClick = true;
     int curHexBtn;
+    bool openingTutoOrOption = false;
     delegate void myFunc();
     void Start()
     {
         SetFunc();
+        if (!PlayerPrefs.HasKey("First"))
+        {
+            PlayerPrefs.SetInt("First", 1);
+            TutoOpen();
+        }
     }
     public void ChangeVolBGM(Slider slider)
     {
@@ -87,6 +94,8 @@ public class SelectPannelControl : MonoBehaviour
 
         ui_Pannel[3].onClick.AddListener(() =>
         {
+            if (openingTutoOrOption) return;
+            openingTutoOrOption = true;
             soundManager.PlaySFX(sounds[1]);
             optins.SetActive(true);
         }); // Options
@@ -130,6 +139,7 @@ public class SelectPannelControl : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            if (openingTutoOrOption && !optins.activeSelf) return;
             soundManager.PlaySFX(sounds[0]);
             optins.SetActive(!optins.activeSelf);
         }
@@ -148,6 +158,7 @@ public class SelectPannelControl : MonoBehaviour
     }
     void HexControl()
     {
+        if (openingTutoOrOption) return;
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         if (CanChange && !hexEnabled)
         {
@@ -237,7 +248,19 @@ public class SelectPannelControl : MonoBehaviour
     }
     public void CloseOptions()
     {
+        openingTutoOrOption = false;
         optins.SetActive(false);
+    }
+    public void TutoOpen()
+    {
+        if (openingTutoOrOption) return;
+        openingTutoOrOption = true;
+        tutorial.SetActive(true);
+    }
+    public void TutoClose()
+    {
+        openingTutoOrOption = false;
+        tutorial.SetActive(false);
     }
     public void LogOut()
     {
