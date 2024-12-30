@@ -31,35 +31,6 @@ public class DiceScript : MonoBehaviourPun
     void FixedUpdate()
     {
         rb.AddForce(Vector3.down * gravityScale, ForceMode.Acceleration);
-        if (diceGm.rollAble && !PV.IsMine)
-        {
-            TakeOwnership();
-        }
-    }
-    public void TakeOwnership()
-    {
-        if (!photonView.IsMine)
-        {
-            photonView.RPC("RequestOwnership", photonView.Owner, PhotonNetwork.LocalPlayer.ActorNumber);
-        }
-        else
-        {
-            Debug.LogWarning("이미 소유자입니다.");
-        }
-    }
-
-    [PunRPC]
-    public void RequestOwnership(int requestingPlayerId)
-    {
-        if (photonView.IsMine)
-        {
-            photonView.TransferOwnership(requestingPlayerId);
-            Debug.Log($"플레이어 {requestingPlayerId}에게 소유권을 넘겼습니다.");
-        }
-        else
-        {
-            Debug.LogWarning("소유자가 아니므로 소유권을 넘길 수 없습니다.");
-        }
     }
     void Update()
     {
