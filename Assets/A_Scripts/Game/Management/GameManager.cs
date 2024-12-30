@@ -201,8 +201,10 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         NextPhase();
     }
+    bool end__ = false;
     void EndGame()
     {
+        end__ = true;
         PV.RPC("EndEne", RpcTarget.Others);
         PlayerPrefs.SetInt("MyScore", myScript.score);
         PlayerPrefs.SetInt("EnemyScore", eneScript.score);
@@ -215,12 +217,19 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         PlayerPrefs.SetInt("MyScoreG", myGroundScore);
         PlayerPrefs.SetInt("EnemyScoreG", eneGroundScore);
+    }
+    [PunRPC]
+    void EndEne_()
+    {
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene("EndGame");
     }
     [PunRPC]
     void EndEne()
     {
+        end__ = true;
+        PV.RPC("EndEne_", RpcTarget.Others);
+
         PlayerPrefs.SetInt("MyScore", myScript.score);
         PlayerPrefs.SetInt("EnemyScore", eneScript.score);
         int myGroundScore = 0;
@@ -436,6 +445,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         // 여기 나갔을때 패배처리하는거 넣기
+        if (end__) return;
         PlayerPrefs.SetInt("ENEXIT", 1);
         PhotonNetwork.LeaveRoom();
         SceneManager.LoadScene("EndGame");
