@@ -5,7 +5,9 @@ using System.Collections.Generic;
 
 public class StatManager : MonoBehaviour
 {
+    public GameObject LoadError;
     public static StatManager Instance { get; private set; }
+    public bool LoadCheck = false;
 
     private int user_wins = 0;
     private int user_losses = 0;
@@ -60,6 +62,8 @@ public class StatManager : MonoBehaviour
     private void OnLoginError(PlayFabError error)
     {
         Debug.LogError("로드 에러 : " + error.GenerateErrorReport());
+        LoadError.SetActive(true);
+
     }
 
     private void LoadUserStats()
@@ -139,6 +143,7 @@ public class StatManager : MonoBehaviour
 
     private void OnScoreUpdated(UpdatePlayerStatisticsResult result)
     {
+        LoadCheck = true;
         Debug.Log("Score updated successfully");
     }
 

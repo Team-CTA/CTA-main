@@ -6,21 +6,24 @@ public class ShowMyScore : MonoBehaviour
     public Text MyScore;
     public Text MyPLAY;
     public Text MyWINRATE;
-    void Start()
+    void Update()
     {
-        MyScore.text = PlayerPrefs.GetInt("UserScore").ToString();
+        if (StatManager.Instance.LoadCheck == false)
+        {
+            MyScore.text = PlayerPrefs.GetInt("UserScore").ToString();
 
-        MyPLAY.text = $"{StatManager.Instance.GetTotalGames()}전 {StatManager.Instance.GetUserWins()}승 {StatManager.Instance.GetUserLosses()}패 {StatManager.Instance.GetUserDraws()}무";
-        MyWINRATE.text = $"승률 : {StatManager.Instance.GetUserWinRate()}%";
+            MyPLAY.text = $"{StatManager.Instance.GetTotalGames()}전 {StatManager.Instance.GetUserWins()}승 {StatManager.Instance.GetUserLosses()}패 {StatManager.Instance.GetUserDraws()}무";
+            MyWINRATE.text = $"승률 : {StatManager.Instance.GetUserWinRate()}%";
 
 
-        Debug.Log(PlayerPrefs.GetInt("UserRank")); //강민재 : 유저 랭크 가져오는 법
-        Debug.Log(PlayerPrefs.GetInt("UserScore")); //강민재 : 유저 스코어 가져오는 법
+            Debug.Log(PlayerPrefs.GetInt("UserRank")); //강민재 : 유저 랭크 가져오는 법
+            Debug.Log(PlayerPrefs.GetInt("UserScore")); //강민재 : 유저 스코어 가져오는 법
 
-        Debug.Log(StatManager.Instance.GetTotalGames()); //강민재 : 총 게임 플레이수 가져오는 법
-        Debug.Log(StatManager.Instance.GetUserWins()); //강민재 : 총 이긴 횟수 가져오는 법
-        Debug.Log(StatManager.Instance.GetUserLosses()); //강민재 : 총 진 횟수 가져오는 법
-        Debug.Log(StatManager.Instance.GetUserDraws()); //강민재 : 총 무승부한 횟수 가져오는 법
-        Debug.Log(StatManager.Instance.GetUserWinRate()); //강민재 : 승률 가져오는 법
+            Debug.Log(StatManager.Instance.GetTotalGames()); //강민재 : 총 게임 플레이수 가져오는 법
+            Debug.Log(StatManager.Instance.GetUserWins()); //강민재 : 총 이긴 횟수 가져오는 법
+            Debug.Log(StatManager.Instance.GetUserLosses()); //강민재 : 총 진 횟수 가져오는 법
+            Debug.Log(StatManager.Instance.GetUserDraws()); //강민재 : 총 무승부한 횟수 가져오는 법
+            Debug.Log(StatManager.Instance.GetUserWinRate()); //강민재 : 승률 가져오는 법
+        }
     }
 }
