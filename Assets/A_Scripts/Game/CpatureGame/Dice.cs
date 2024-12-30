@@ -15,7 +15,7 @@ public class Dice : MonoBehaviourPun
     [SerializeField] Text isclearText;
     [SerializeField] GameObject gmaeEndObj;
     [SerializeField] GameObject playScreenObj;
-    [SerializeField] GameManager gm;
+    public GameManager gm;
     PhotonView PV;
     private void Start()
     {
