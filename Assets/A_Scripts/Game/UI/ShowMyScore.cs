@@ -6,14 +6,14 @@ public class ShowMyScore : MonoBehaviour
     public Text MyScore;
     public Text MyPLAY;
     public Text MyWINRATE;
-    void Update()
+    public void LoadStat(int w, int l, int d, int winrate)
     {
         if (StatManager.Instance.LoadCheck == false)
         {
-            MyScore.text = PlayerPrefs.GetInt("UserScore").ToString();
+            // MyScore.text = score.ToString;
 
-            MyPLAY.text = $"{StatManager.Instance.GetTotalGames()}전 {StatManager.Instance.GetUserWins()}승 {StatManager.Instance.GetUserLosses()}패 {StatManager.Instance.GetUserDraws()}무";
-            MyWINRATE.text = $"승률 : {StatManager.Instance.GetUserWinRate()}%";
+            MyPLAY.text = $"{w + l + d}전 {w}승 {l}패 {d}무";
+            MyWINRATE.text = $"승률 : {winrate}%";
 
 
             Debug.Log(PlayerPrefs.GetInt("UserRank")); //강민재 : 유저 랭크 가져오는 법
@@ -25,5 +25,9 @@ public class ShowMyScore : MonoBehaviour
             Debug.Log(StatManager.Instance.GetUserDraws()); //강민재 : 총 무승부한 횟수 가져오는 법
             Debug.Log(StatManager.Instance.GetUserWinRate()); //강민재 : 승률 가져오는 법
         }
+    }
+    public void LoatScore(int score)
+    {
+        MyScore.text = score.ToString();
     }
 }

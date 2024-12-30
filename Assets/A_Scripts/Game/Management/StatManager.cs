@@ -31,7 +31,9 @@ public class StatManager : MonoBehaviour
     private void Start()
     {
         PlayerPrefs.SetInt("WINRATE", 0);
-        Login();
+        // Login();
+        LoadUserStats();
+
     }
 
     private void Login()
@@ -96,6 +98,15 @@ public class StatManager : MonoBehaviour
         Debug.Log("GetUserWinRate : " + GetUserWinRate());
 
         Debug.Log("WINRATE : " + CalculateWinRate(user_wins, user_losses));
+        try
+        {
+            GameObject.FindWithTag("scr").GetComponent<ShowMyScore>().LoadStat(GetUserWins(), GetUserLosses(), GetUserDraws(), CalculateWinRate(user_wins, user_losses));
+        }
+        catch (System.Exception)
+        {
+
+            throw;
+        }
     }
 
     public void WinScore()

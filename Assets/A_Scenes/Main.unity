@@ -8213,7 +8213,7 @@ GameObject:
   - component: {fileID: 1176537944}
   m_Layer: 5
   m_Name: Score
-  m_TagString: Untagged
+  m_TagString: scr
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8338,7 +8338,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1824553991}
   m_HandleRect: {fileID: 1824553990}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
