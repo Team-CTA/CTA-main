@@ -3,6 +3,7 @@ using PlayFab.ClientModels;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro.Examples;
 
 public class RankManager : MonoBehaviour
 {
@@ -124,15 +125,7 @@ public class RankManager : MonoBehaviour
 
                 userRank = item.Position + 1;
                 userScore = item.StatValue;
-                try
-                {
-                    GameObject.FindWithTag("scr").GetComponent<ShowMyScore>().LoatScore(Userscore);
-                }
-                catch (System.Exception)
-                {
 
-                    throw;
-                }
                 Debug.Log("rank 로컬 DB 세팅!");
                 PlayerPrefs.SetInt("UserRank", userRank);
                 PlayerPrefs.SetInt("UserScore", userScore);
@@ -141,7 +134,15 @@ public class RankManager : MonoBehaviour
                 myName.text = PlayerPrefs.GetString("USERNAME");
                 myRank.text = GetRankSuffix(userRank);
                 SetRankingColor(myRank, userRank - 1);
+                try
+                {
+                    GameObject.FindWithTag("scr").GetComponent<ShowMyScore>().LoatScore(Userscore);
+                }
+                catch (System.Exception)
+                {
 
+                    Debug.Log("안됨!!!!!!!!!");
+                }
             }
         }
     }
