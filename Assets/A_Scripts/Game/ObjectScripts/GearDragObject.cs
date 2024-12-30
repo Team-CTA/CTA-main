@@ -1,7 +1,8 @@
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class GearDragObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDragHandler
+public class GearDragObject : MonoBehaviourPun, IDragHandler, IBeginDragHandler, IEndDragHandler
 {
     [SerializeField] Gear gearGm;
     private RectTransform rectTransform; // UI 오브젝트의 RectTransform
@@ -13,13 +14,47 @@ public class GearDragObject : MonoBehaviour, IDragHandler, IBeginDragHandler, IE
     public Vector2 minBounds; // 드래그 가능한 최소 x, y 위치
     public Vector2 maxBounds; // 드래그 가능한 최대 x, y 위치
 
+    PhotonView PV;
+
     void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvas = GetComponentInParent<Canvas>();
         canvasGroup = GetComponent<CanvasGroup>();
+        PV = photonView;
+    }
+    private void Update()
+    {
+        if (gearGm.gm.myScript.myturn && !PV.IsMine)
+        {
+            TakeOwnership();
+        }
+    }
+    public void TakeOwnership()
+    {
+        if (!photonView.IsMine)
+        {
+            photonView.RPC("RequestOwnership", photonView.Owner, PhotonNetwork.LocalPlayer.ActorNumber);
+        }
+        else
+        {
+            Debug.LogWarning("이미 소유자입니다.");
+        }
     }
 
+    [PunRPC]
+    public void RequestOwnership(int requestingPlayerId)
+    {
+        if (photonView.IsMine)
+        {
+            photonView.TransferOwnership(requestingPlayerId);
+            Debug.Log($"플레이어 {requestingPlayerId}에게 소유권을 넘겼습니다.");
+        }
+        else
+        {
+            Debug.LogWarning("소유자가 아니므로 소유권을 넘길 수 없습니다.");
+        }
+    }
     public void OnBeginDrag(PointerEventData eventData)
     {
         // 드래그 시작 시 초기 위치 저장

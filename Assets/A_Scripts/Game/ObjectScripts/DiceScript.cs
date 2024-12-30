@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Photon.Pun;
 using UnityEngine;
 
-public class DiceScript : MonoBehaviour
+public class DiceScript : MonoBehaviourPun
 {
     [SerializeField] Dice diceGm;
     static Rigidbody rb;
@@ -15,6 +16,7 @@ public class DiceScript : MonoBehaviour
     private Vector2 endMousePosition;
     [SerializeField] float swipeThreshold = 400f; // 스와이프 최소 거리 (픽셀 단위)
     public int recentRes = 0;
+    PhotonView PV;
 
     #region Unity Default
     void Start()
@@ -24,10 +26,40 @@ public class DiceScript : MonoBehaviour
         {
             Badak = GameObject.FindWithTag("Badak").GetComponent<ReturnDiceNum>();
         }
+        PV = photonView;
     }
     void FixedUpdate()
     {
         rb.AddForce(Vector3.down * gravityScale, ForceMode.Acceleration);
+        if (diceGm.rollAble && !PV.IsMine)
+        {
+            TakeOwnership();
+        }
+    }
+    public void TakeOwnership()
+    {
+        if (!photonView.IsMine)
+        {
+            photonView.RPC("RequestOwnership", photonView.Owner, PhotonNetwork.LocalPlayer.ActorNumber);
+        }
+        else
+        {
+            Debug.LogWarning("이미 소유자입니다.");
+        }
+    }
+
+    [PunRPC]
+    public void RequestOwnership(int requestingPlayerId)
+    {
+        if (photonView.IsMine)
+        {
+            photonView.TransferOwnership(requestingPlayerId);
+            Debug.Log($"플레이어 {requestingPlayerId}에게 소유권을 넘겼습니다.");
+        }
+        else
+        {
+            Debug.LogWarning("소유자가 아니므로 소유권을 넘길 수 없습니다.");
+        }
     }
     void Update()
     {
