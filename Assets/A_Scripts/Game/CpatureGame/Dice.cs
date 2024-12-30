@@ -46,6 +46,7 @@ public class Dice : MonoBehaviourPun
         }
         rollAble = false;
         howtoText.gameObject.SetActive(false);
+        howtoText.text = "상대 입장 대기중...";
         playernameText.text = $"게임 진행중 : {playername}";
         numText.text = "X";
         if (difficulty == 1) over = 2;
@@ -58,6 +59,12 @@ public class Dice : MonoBehaviourPun
         StartCoroutine(InProgress());
     }
     [PunRPC]
+    void OpennedPnl()
+    {
+        howtoText.text = "[ 위로 스와이프 ]";
+        StartCoroutine(InProgress());
+    }
+    [PunRPC]
     void Starting(string name, int dif)
     {
         gmaeEndObj.SetActive(false);
@@ -66,6 +73,15 @@ public class Dice : MonoBehaviourPun
         clearconditionText.text = $"성공조건 : {dif} 이상";
         numText.text = "X";
         playScreenObj.SetActive(true);
+        StartCoroutine(WaitOpening());
+    }
+    IEnumerator WaitOpening()
+    {
+        while (!playScreenObj.gameObject.activeSelf)
+        {
+            yield return null;
+        }
+        PV.RPC("OpennedPnl", RpcTarget.Others);
     }
     IEnumerator InProgress()
     {
